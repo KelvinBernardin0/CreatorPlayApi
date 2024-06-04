@@ -10,7 +10,8 @@ public class ApplicationUserEntityTypeConfiguration : IEntityTypeConfiguration<A
 	{
 		builder.Property(b => b.CreatedAt)
 			   .UsePropertyAccessMode(PropertyAccessMode.Field)
-			   .IsRequired(true);
+			   .IsRequired(true)
+			   .HasDefaultValue(DateTime.Now);
 
 		builder.Property(b => b.ModifiedAt)
 			   .UsePropertyAccessMode(PropertyAccessMode.Field)

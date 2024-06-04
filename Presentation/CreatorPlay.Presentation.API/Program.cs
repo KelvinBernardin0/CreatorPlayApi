@@ -35,6 +35,7 @@ builder.Services.AddApplication();
 builder.Services.AddAuthorization();
 builder.Services.AddPersistence();
 builder.Host.UseSerilog();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -52,20 +53,23 @@ if (app.Environment.IsDevelopment() || Configuration.EnableSwagger)
 	});
 }
 
-app.UseSerilogRequestLogging();
-app.UseHsts();
 app.UseRouting();
+app.UseSerilogRequestLogging("HTTP {RequestMethod} {RequestPath} STATUS {StatusCode} IN {Elapsed:0.0000} ms");
 app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
 
-app.UseCors(x => x.AllowAnyHeader()
-	  .AllowAnyMethod()
-	  .AllowAnyOrigin());
+//app.UseCors(x => x.AllowAnyOrigin()
+app.UseCors(x => x.WithOrigins("*")
+				  .WithHeaders("*")
+				  .WithMethods("*"));
 
 app.UseRouting();
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapGet("/{**path}", async context => await context.Response.WriteAsync("Swagger desabilitado, contatar o administrador."));
+	endpoints.MapControllers();
+});
 
-app.MapControllers();
-app.MapGet("/{**path}", async context => await context.Response.WriteAsync("Acesse url/docs (Ex. https://localhost:6584/docs)"));
 
 app.Run();

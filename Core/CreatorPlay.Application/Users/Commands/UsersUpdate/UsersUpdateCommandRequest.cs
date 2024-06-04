@@ -3,8 +3,8 @@ using MediatR;
 
 namespace CreatorPlay.Application.Users.Commands.UsersUpdate;
 
-public class UsersUpdateCommandRequest(string id, string phoneNumber) : IRequest<ResponseApi<UsersUpdateCommandResponse>>
+public class UsersUpdateCommandRequest : IRequest<ResponseApi<UsersUpdateCommandResponse>>
 {
-	public string Id { get; } = id;
-	public string? PhoneNumber { get; } = phoneNumber;
+	public string Id { get; set; }
+	public string? PhoneNumber { get; set; }
 }

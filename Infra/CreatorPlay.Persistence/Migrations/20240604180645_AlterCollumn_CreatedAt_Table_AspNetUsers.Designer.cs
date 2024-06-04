@@ -4,6 +4,7 @@ using CreatorPlay.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CreatorPlay.Persistence.Migrations
 {
     [DbContext(typeof(CreatorPlayContext))]
-    partial class CreatorPlayContextModelSnapshot : ModelSnapshot
+    [Migration("20240604180645_AlterCollumn_CreatedAt_Table_AspNetUsers")]
+    partial class AlterCollumn_CreatedAt_Table_AspNetUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
