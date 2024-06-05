@@ -12,7 +12,7 @@ public class AuthenticationController(IMediator mediator) : BaseController
 {
 	private readonly IMediator _mediator = mediator;
 
-	[HttpPost()]
+	[HttpPost("Autenticar")]
 	[ProducesResponseType(typeof(AuthenticationCreateCommandResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> AuthenticationUserAsync([FromBody] AuthenticationCreateCommandRequest request)

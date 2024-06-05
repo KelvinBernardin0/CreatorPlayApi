@@ -14,16 +14,16 @@ public class UsersController(IMediator mediator) : ControllerBase
 {
 	private readonly IMediator _mediator = mediator;
 
-	[HttpGet()]
+	[HttpGet("BuscarUsuario")]
 	[ProducesResponseType(typeof(GetUsersQueryResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
-	public async Task<IActionResult> GetUsuariosAsync()
+	public async Task<IActionResult> GetUsuariosAsync([FromQuery] GetUsersQueryRequest request)
 	{
-		var response = await _mediator.Send(new GetUsersQueryRequest());
+		var response = await _mediator.Send(request);
 		return StatusCode(response.HttpStatusCode, response.GetResultData);
 	}
-	
-	[HttpPost()]
+
+	[HttpPost("CriarUsuario")]
 	[ProducesResponseType(typeof(UsersCreateCommandResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> CreateUsersAsync([FromBody] UsersCreateCommandRequest request)
@@ -32,8 +32,8 @@ public class UsersController(IMediator mediator) : ControllerBase
 		return StatusCode(response.HttpStatusCode, response.GetResultData);
 	}
 
-	[Authorize(Roles = "Default_Access")]
-	[HttpPut()]
+	//[Authorize(Roles = "Default_Access")]
+	[HttpPut("AtualizarUsuario")]
 	[ProducesResponseType(typeof(UsersUpdateCommandResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> UpdateUsuariosAsync([FromBody] UsersUpdateCommandRequest request)

@@ -17,7 +17,7 @@ public class GetUsersQueryHandler(ILogger<GetUsersQueryHandler> _logger, ICreato
 
 		try
 		{
-			var usuarios = await _context.ApplicationUser.ToListAsync(cancellationToken);
+			var usuarios = await _context.ApplicationUser.Where(x => x.Id == request.Id).ToListAsync(cancellationToken);
 			response.SetSuccess(usuarios.Select(x => new GetUsersQueryResponse(x)), HttpStatusCode.OK.GetHashCode());
 		}
 		catch (Exception ex)
