@@ -58,10 +58,9 @@ app.UseSerilogRequestLogging("HTTP {RequestMethod} {RequestPath} STATUS {StatusC
 app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
 
-//app.UseCors(x => x.AllowAnyOrigin()
-app.UseCors(x => x.WithOrigins("*")
-				  .WithHeaders("*")
-				  .WithMethods("*"));
+app.UseCors(x => x.AllowAnyOrigin()
+				  .WithHeaders()
+				  .WithMethods());
 
 app.UseRouting();
 app.UseAuthorization();

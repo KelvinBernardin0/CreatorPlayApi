@@ -31,7 +31,7 @@ public class UsersController(IMediator mediator) : ControllerBase
 		return StatusCode(response.HttpStatusCode, response.GetResultData);
 	}
 
-	[HttpPatch()]
+	[HttpPut()]
 	[ProducesResponseType(typeof(UsersUpdateCommandResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> UpdateUsuariosAsync([FromBody] UsersUpdateCommandRequest request)
