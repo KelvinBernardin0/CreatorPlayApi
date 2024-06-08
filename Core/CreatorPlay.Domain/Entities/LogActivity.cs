@@ -1,5 +1,3 @@
-using CreatorPlay.Domain.Enumerators;
-
 namespace CreatorPlay.Domain.Entities;
 
 public class LogActivity
@@ -17,5 +15,6 @@ public class LogActivity
 		User = user;
 		TypeUser = typeUser;
 		Message = message;
+		CreatedAt = DateTime.Now;
 	}
 }

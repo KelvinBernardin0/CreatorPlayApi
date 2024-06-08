@@ -12,7 +12,7 @@ public class LogActivityEntityTypeConfiguration : IEntityTypeConfiguration<LogAc
 		builder.HasKey(b => b.Id).IsClustered();
 		builder.Property(b => b.LogLevel).IsRequired();
 		builder.Property(b => b.User).IsRequired().HasColumnType("varchar(100)");
-		builder.Property(b => b.CreatedAt).IsRequired().HasDefaultValue(DateTime.Now);
+		builder.Property(b => b.CreatedAt).IsRequired();
 		builder.Property(b => b.TypeUser).IsRequired().HasColumnType("varchar(20)"); ;
 		builder.Property(b => b.Message).IsRequired().HasColumnType("nvarchar(max)");
 	}

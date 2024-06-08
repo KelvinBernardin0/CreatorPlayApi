@@ -1,6 +1,7 @@
 using CreatorPlay.Application.Common.Interfaces;
 using CreatorPlay.Application.Common.Models.Error;
 using CreatorPlay.Application.Common.Models.Response;
+using CreatorPlay.Application.Users.Commands.UsersUpdate;
 using CreatorPlay.Common;
 using CreatorPlay.Domain.Entities;
 using CreatorPlay.Domain.Enumerators;
@@ -26,13 +27,14 @@ public class UsersCreateCommandHandler(ILogger<UsersCreateCommandHandler> logger
 
 		try
 		{
-			var error = await ValidateRequest(request, cancellationToken);
-			if (error == null)
+			var requestError = await ValidateRequest(request, cancellationToken);
+			if (requestError == null)
 			{
 				var newUser = new ApplicationUser
 				{
 					UserName = request.Email,
-					Email = request.Email
+					Email = request.Email,
+					CreatedAt = DateTime.Now
 				};
 
 				var userCreated = await _userManager.CreateAsync(newUser, request.Password);
@@ -53,8 +55,11 @@ public class UsersCreateCommandHandler(ILogger<UsersCreateCommandHandler> logger
 						{
 							if (roleCreated.Errors.Any(x => x.Code == typeError.ToString()))
 							{
+								_context.ApplicationUser.Remove(newUser);
+								await _context.SaveChangesAsync(cancellationToken);
+
 								response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
-								break;
+								return response;
 							}
 						}
 					}
@@ -67,18 +72,18 @@ public class UsersCreateCommandHandler(ILogger<UsersCreateCommandHandler> logger
 						if (userCreated.Errors.Any(x => x.Code == typeError.ToString()))
 						{
 							response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
-							break;
+							return response;
 						}
 					}
 				}
 			}
 			else
-				response.SetError(new ResponseError(error.Value, error.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+				response.SetError(new ResponseError(requestError.Value, requestError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError("{ex},{message}", ex, ex.Message);
-			response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.Unauthorized.GetHashCode());
+			_logger.LogError("{Message}", $"Erro in {nameof(UsersCreateCommandHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
+			response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.InternalServerError.GetHashCode());
 		}
 
 		return response;

@@ -33,7 +33,7 @@ public class BaseController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			return new JwtDataUser();
+			throw new Exception(ex.Message, ex);
 		}
 	}
 }

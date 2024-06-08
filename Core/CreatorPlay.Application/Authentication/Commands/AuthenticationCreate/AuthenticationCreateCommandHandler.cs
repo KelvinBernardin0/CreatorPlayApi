@@ -1,23 +1,24 @@
+using CreatorPlay.Application.Common.Models.Error;
+using CreatorPlay.Application.Common.Models.Response;
+using CreatorPlay.Common;
+using CreatorPlay.Domain.Entities;
+using CreatorPlay.Domain.Enumerators;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using CreatorPlay.Application.Common.Models.Error;
-using CreatorPlay.Application.Common.Models.Response;
-using CreatorPlay.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
-using CreatorPlay.Domain.Enumerators;
 
 namespace CreatorPlay.Application.Authentication.Commands.AuthenticationCreate;
 
 public class AuthenticationCreateCommanddHandler(ILogger<AuthenticationCreateCommanddHandler> logger,
-												UserManager<Domain.Entities.ApplicationUser> userManager) : IRequestHandler<AuthenticationCreateCommandRequest, ResponseApi<AuthenticationCreateCommandResponse>>
+												UserManager<ApplicationUser> userManager) : IRequestHandler<AuthenticationCreateCommandRequest, ResponseApi<AuthenticationCreateCommandResponse>>
 {
 	private readonly ILogger<AuthenticationCreateCommanddHandler> _logger = logger;
-	private readonly UserManager<Domain.Entities.ApplicationUser> _userManager = userManager;
+	private readonly UserManager<ApplicationUser> _userManager = userManager;
 
 	public async Task<ResponseApi<AuthenticationCreateCommandResponse>> Handle(AuthenticationCreateCommandRequest request, CancellationToken cancellationToken)
 	{
@@ -60,7 +61,7 @@ public class AuthenticationCreateCommanddHandler(ILogger<AuthenticationCreateCom
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError("{ex},{message}", ex, ex.Message);
+			_logger.LogError("{Message}", $"Erro in {nameof(AuthenticationCreateCommanddHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
 			response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.InternalServerError.GetHashCode());
 		}
 		return response;

@@ -1,6 +1,3 @@
 namespace CreatorPlay.Application.Users.Commands.UsersUpdate;
 
-public class UsersUpdateCommandResponse(string id)
-{
-	public string Id { get; } = id;
-}
+public record UsersUpdateCommandResponse(string Id);

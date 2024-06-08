@@ -1,24 +1,25 @@
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
+using CreatorPlay.Application.Common.Interfaces;
 using CreatorPlay.Application.Common.Models.Error;
 using CreatorPlay.Application.Common.Models.Response;
-using CreatorPlay.Common;
-using System.Net;
-using CreatorPlay.Domain.Enumerators;
 using CreatorPlay.Application.LogActivity.Commands.LogActivityCreate;
-using CreatorPlay.Application.Common.Interfaces;
+using CreatorPlay.Common;
+using CreatorPlay.Domain.Entities;
+using CreatorPlay.Domain.Enumerators;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace CreatorPlay.Application.Authentication.Commands.AuthenticationCreate;
 
 public class LogActivityCreateCommandHandler(ILogger<LogActivityCreateCommandHandler> logger,
 											 ICreatorPlayContext context,
-											 UserManager<Domain.Entities.ApplicationUser> userManager) : IRequestHandler<LogActivityCreateCommandRequest, ResponseApi<LogActivityCreateCommandResponse>>
+											 UserManager<ApplicationUser> userManager) : IRequestHandler<LogActivityCreateCommandRequest, ResponseApi<LogActivityCreateCommandResponse>>
 {
 	private readonly ILogger<LogActivityCreateCommandHandler> _logger = logger;
 	private readonly ICreatorPlayContext _context = context;
-	private readonly UserManager<Domain.Entities.ApplicationUser> _userManager = userManager;
+	private readonly UserManager<ApplicationUser> _userManager = userManager;
 
 	public async Task<ResponseApi<LogActivityCreateCommandResponse>> Handle(LogActivityCreateCommandRequest request, CancellationToken cancellationToken)
 	{
@@ -42,7 +43,7 @@ public class LogActivityCreateCommandHandler(ILogger<LogActivityCreateCommandHan
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError("{ex},{message}", ex, ex.Message);
+			_logger.LogError("{Message}", $"Erro in {nameof(LogActivityCreateCommandHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
 			response.SetSuccess(new LogActivityCreateCommandResponse(false), HttpStatusCode.OK.GetHashCode());
 		}
 		return response;

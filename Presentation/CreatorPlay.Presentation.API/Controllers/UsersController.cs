@@ -1,27 +1,32 @@
+using CreatorPlay.Application.Common.Models.Error;
 using CreatorPlay.Application.Common.Models.Response;
+using CreatorPlay.Application.Users.Commands.UsersCreate;
+using CreatorPlay.Application.Users.Commands.UsersUpdate;
+using CreatorPlay.Application.Users.Queries.GetUsersById;
+using CreatorPlay.Common;
+using CreatorPlay.Domain.Enumerators;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using CreatorPlay.Application.Users.Commands.UsersUpdate;
-using CreatorPlay.Application.Users.Queries.GetUsers;
-using CreatorPlay.Application.Users.Commands.UsersCreate;
+using System.Net;
 
 namespace CreatorPlay.Presentation.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-public class UsersController(IMediator mediator) : ControllerBase
+public class UsersController(IMediator mediator, ILogger<UsersController> logger) : BaseController
 {
 	private readonly IMediator _mediator = mediator;
+	private readonly ILogger<UsersController> _logger = logger;
 
-	[HttpGet()]
-	[ProducesResponseType(typeof(GetUsersQueryResponse), StatusCodes.Status200OK)]
+	[HttpGet("id/{id}")]
+	[ProducesResponseType(typeof(GetUsersByIdQueryResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
-	public async Task<IActionResult> GetUsuariosAsync()
+	public async Task<IActionResult> GetUsersByIdAsync([FromRoute] string id)
 	{
-		var response = await _mediator.Send(new GetUsersQueryRequest());
+		var response = await _mediator.Send(new GetUsersByIdQueryRequest(id));
 		return StatusCode(response.HttpStatusCode, response.GetResultData);
 	}
-	
+
 	[HttpPost()]
 	[ProducesResponseType(typeof(UsersCreateCommandResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
@@ -36,7 +41,19 @@ public class UsersController(IMediator mediator) : ControllerBase
 	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> UpdateUsuariosAsync([FromBody] UsersUpdateCommandRequest request)
 	{
-		var response = await _mediator.Send(request);
-		return StatusCode(response.HttpStatusCode, response.GetResultData);
+		var response = new ResponseApi<UsersUpdateCommandResponse>();
+
+		try
+		{
+			request.Id = JwtUserData().Id;
+			response = await _mediator.Send(request);
+			return StatusCode(response.HttpStatusCode, response.GetResultData);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("{message}", ex.ToJson());
+			response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+			return StatusCode(response.HttpStatusCode, response.GetResultData);
+		}
 	}
 }
