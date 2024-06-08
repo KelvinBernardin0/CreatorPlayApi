@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CreatorPlay.Persistence.Migrations
 {
     [DbContext(typeof(CreatorPlayContext))]
-    [Migration("20240608200019_Alter_Collumns_CreatedAt_User_LogActivity_Tables")]
-    partial class Alter_Collumns_CreatedAt_User_LogActivity_Tables
+    [Migration("20240608212830_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
