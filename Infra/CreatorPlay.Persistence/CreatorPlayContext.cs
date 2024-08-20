@@ -39,10 +39,10 @@ public class CreatorPlayContext : IdentityDbContext<ApplicationUser, Application
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(typeof(CreatorPlayContext).Assembly);
-		
 		base.OnModelCreating(modelBuilder);
 	}
 
+	public DbSet<ApplicationRole> ApplicationRole { get; set; }
 	public DbSet<ApplicationUser> ApplicationUser { get; set; }
 	public DbSet<LogActivity> LogActivity { get; set; }
 }

@@ -35,8 +35,9 @@ builder.Services.AddApplication();
 builder.Services.AddAuthorization();
 builder.Services.AddPersistence();
 builder.Host.UseSerilog();
-builder.Services.AddCors();
 
+Log.Information("AllowOrigins:: {origins}", Configuration.OriginCors);
+string originCors = GetAllowOriginCors(builder);
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || Configuration.EnableSwagger)
@@ -53,22 +54,39 @@ if (app.Environment.IsDevelopment() || Configuration.EnableSwagger)
 	});
 }
 
-app.UseRouting();
 app.UseSerilogRequestLogging("HTTP {RequestMethod} {RequestPath} STATUS {StatusCode} IN {Elapsed:0.0000} ms");
 app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
-
-app.UseCors(x => x.AllowAnyOrigin()
-				  .WithHeaders()
-				  .WithMethods());
-
 app.UseRouting();
+app.UseCors(originCors);
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
 	endpoints.MapGet("/{**path}", async context => await context.Response.WriteAsync("Swagger desabilitado, contatar o administrador."));
 	endpoints.MapControllers();
 });
 
-
 app.Run();
+
+static string GetAllowOriginCors(WebApplicationBuilder builder)
+{
+	var originCors = "allowOrigins";
+	builder.Services.AddCors(options =>
+	{
+		options.AddPolicy(name: originCors,
+						  policy =>
+						  {
+							  if (Configuration.IsLocalhost)
+								  policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+							  else
+								  policy.WithOrigins(Configuration.OriginCors).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+
+							  //policy.WithOrigins(Configuration.OriginCors)
+									//.AllowAnyHeader()
+									//.AllowAnyMethod();
+						  });
+	});
+	return originCors;
+}

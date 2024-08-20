@@ -1,7 +1,6 @@
 using CreatorPlay.Application.Common.Interfaces;
 using CreatorPlay.Application.Common.Models.Error;
 using CreatorPlay.Application.Common.Models.Response;
-using CreatorPlay.Application.Users.Commands.UsersUpdate;
 using CreatorPlay.Common;
 using CreatorPlay.Domain.Entities;
 using CreatorPlay.Domain.Enumerators;
@@ -40,9 +39,8 @@ public class UsersCreateCommandHandler(ILogger<UsersCreateCommandHandler> logger
 				var userCreated = await _userManager.CreateAsync(newUser, request.Password);
 				if (userCreated.Succeeded)
 				{
-					var roleCreated = request.Role == Roles.Default_Access ? await _userManager.AddToRoleAsync(newUser, Roles.Default_Access.ToString())
-																		   : await _userManager.AddToRoleAsync(newUser, Roles.Commercial_Access.ToString());
-
+					var role = await _context.ApplicationRole.FirstOrDefaultAsync(x => x.Id == request.RoleId, cancellationToken: cancellationToken);
+					var roleCreated = await _userManager.AddToRoleAsync(newUser, role.Name);
 					if (roleCreated.Succeeded)
 					{
 						response.SetSuccess(new UsersCreateCommandResponse("Cadastro realizado com sucesso!"), HttpStatusCode.Created.GetHashCode());

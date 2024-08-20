@@ -33,4 +33,22 @@ public static class Configuration
 	public static string ValidAudience => _configuration.GetSection("JWT")["ValidAudience"];
 	public static int Expiration => int.Parse(_configuration.GetSection("JWT")["Expiration"]);
 	public static string Secret => _configuration.GetSection("JWT")["Secret"];
+
+	public static string[] OriginCors
+	{
+		get
+		{
+			var list = new List<string>();
+			try
+			{
+				_configuration.GetSection("OriginCors")?.Bind(list);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message, ex);
+			}
+
+			return list.ToArray();
+		}
+	}
 }

@@ -154,6 +154,9 @@ public enum TypeError
 	[Description("ClientId e Secret inválidos.")]
 	InvalidCredentials = 1119,
 
+	[Description("Perfis de Acesso de usuários não encontrados.")]
+	AccesProfileNotFound = 1120,
+
 	#endregion
 
 	#region SETOR: 1200 a 1299

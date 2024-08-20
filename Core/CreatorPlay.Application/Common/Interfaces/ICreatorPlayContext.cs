@@ -7,6 +7,7 @@ namespace CreatorPlay.Application.Common.Interfaces;
 
 public interface ICreatorPlayContext
 {
+	DbSet<ApplicationRole> ApplicationRole { get; set; }
 	DbSet<ApplicationUser> ApplicationUser { get; set; }
 	DbSet<Domain.Entities.LogActivity> LogActivity { get; set; }
 

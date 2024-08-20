@@ -2,6 +2,7 @@ using CreatorPlay.Application.Common.Models.Error;
 using CreatorPlay.Application.Common.Models.Response;
 using CreatorPlay.Application.Users.Commands.UsersCreate;
 using CreatorPlay.Application.Users.Commands.UsersUpdate;
+using CreatorPlay.Application.Users.Queries.GetAccessProfile;
 using CreatorPlay.Application.Users.Queries.GetUsersById;
 using CreatorPlay.Common;
 using CreatorPlay.Domain.Enumerators;
@@ -55,5 +56,14 @@ public class UsersController(IMediator mediator, ILogger<UsersController> logger
 			response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
 			return StatusCode(response.HttpStatusCode, response.GetResultData);
 		}
+	}
+
+	[HttpGet("access-profile")]
+	[ProducesResponseType(typeof(GetAccessProfileQueryResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
+	public async Task<IActionResult> GetAccessProfileAsync()
+	{
+		var response = await _mediator.Send(new GetAccessProfileQueryRequest());
+		return StatusCode(response.HttpStatusCode, response.GetResultData);
 	}
 }
