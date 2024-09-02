@@ -4,9 +4,9 @@ namespace CreatorPlay.Domain.Enumerators;
 
 public enum TypeError
 {
-	#region VVEAPI: 800 A 899
+    #region VVEAPI: 800 A 899
 
-	[Description("Erro na requisição da API de validação de CNPJ.")]
+    [Description("Erro na requisição da API de validação de CNPJ.")]
 	ErrorCNPJvalidationAPI = 800,
 
 	#endregion
@@ -89,11 +89,14 @@ public enum TypeError
 	[Description("Usuário não tem a permissão para esta função.")]
 	UserNotInRole = 1017,
 
-	#endregion
+    [Description("Falha ao tentar cadastrar a nova senha, tente mais tarde ou entre em contato com o departamento de suporte técnico.")]
+    ResetPasswordFail = 1018,
 
-	#region USUARIO: 1100 a 1199
+    #endregion
 
-	[Description("Usuário não encontrado.")]
+    #region USUARIO: 1100 a 1199
+
+    [Description("Usuário não encontrado.")]
 
 	UserNotFound = 1100,
 
@@ -157,11 +160,17 @@ public enum TypeError
 	[Description("Perfis de Acesso de usuários não encontrados.")]
 	AccesProfileNotFound = 1120,
 
-	#endregion
+    [Description("E-mail não encontrado.")]
+    EmailNotFound = 1121,
 
-	#region SETOR: 1200 a 1299
+    [Description("Código de recuperação de senha inválido, tente mais tarde ou entre em contato com o departamento de suporte técnico.")]
+    CodeForgotPasswordInvalid = 1122,
 
-	[Description("Setor já existe.")]
+    #endregion
+
+    #region SETOR: 1200 a 1299
+
+    [Description("Setor já existe.")]
 	SectorAlreadyExists = 1200,
 
 	[Description("Setor é obrigatório.")]

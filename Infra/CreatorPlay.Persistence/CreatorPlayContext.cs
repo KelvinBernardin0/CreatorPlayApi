@@ -44,5 +44,6 @@ public class CreatorPlayContext : IdentityDbContext<ApplicationUser, Application
 
 	public DbSet<ApplicationRole> ApplicationRole { get; set; }
 	public DbSet<ApplicationUser> ApplicationUser { get; set; }
+    public DbSet<GlobalConfiguration> GlobalConfiguration { get; set; }
 	public DbSet<LogActivity> LogActivity { get; set; }
 }

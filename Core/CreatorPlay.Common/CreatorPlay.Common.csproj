@@ -24,4 +24,10 @@
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="WebApi_VivoValoriza.BouncyCrypto">
+      <HintPath>..\..\Dlls\WebApi_VivoValoriza.BouncyCrypto.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

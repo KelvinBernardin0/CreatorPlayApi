@@ -28,6 +28,7 @@ Log.Logger = new LoggerConfiguration()
 					})
 				.CreateLogger();
 
+builder.Services.AddEncodingClassConfiguration();
 builder.Services.AddCustomFramework();
 builder.Services.AddCustomOpenAPI();
 builder.Services.AddCustomAuthenticationAPI();
@@ -82,10 +83,6 @@ static string GetAllowOriginCors(WebApplicationBuilder builder)
 								  policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 							  else
 								  policy.WithOrigins(Configuration.OriginCors).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
-
-							  //policy.WithOrigins(Configuration.OriginCors)
-									//.AllowAnyHeader()
-									//.AllowAnyMethod();
 						  });
 	});
 	return originCors;

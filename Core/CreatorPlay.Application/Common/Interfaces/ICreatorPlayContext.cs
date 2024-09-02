@@ -9,9 +9,10 @@ public interface ICreatorPlayContext
 {
 	DbSet<ApplicationRole> ApplicationRole { get; set; }
 	DbSet<ApplicationUser> ApplicationUser { get; set; }
+    DbSet<GlobalConfiguration> GlobalConfiguration { get; set; }
 	DbSet<Domain.Entities.LogActivity> LogActivity { get; set; }
 
-	IExecutionStrategy CreateExecutionStrategy();
+    IExecutionStrategy CreateExecutionStrategy();
 	Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 	void SetModifiedState<T>(T entity);
 	void AttachModelToContext<T>(T entity);

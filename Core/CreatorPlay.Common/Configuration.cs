@@ -29,12 +29,14 @@ public static class Configuration
 	public static bool IsLocalhost => bool.Parse(_configuration.GetSection("AppSettings")["IsLocalhost"]);
 	public static bool EnableSwagger => _configuration.GetSection("AppSettings")["EnableSwagger"] != null && bool.Parse(_configuration.GetSection("AppSettings")["EnableSwagger"]);
 	public static string ConnectionString => _configuration.GetConnectionString("DefaultConnection");
-	public static string ValidIssuer => _configuration.GetSection("JWT")["ValidIssuer"];
-	public static string ValidAudience => _configuration.GetSection("JWT")["ValidAudience"];
-	public static int Expiration => int.Parse(_configuration.GetSection("JWT")["Expiration"]);
-	public static string Secret => _configuration.GetSection("JWT")["Secret"];
+	public static int Expiration => _configuration["JwtExpiration"].HasValue() ? int.Parse(_configuration["JwtExpiration"]) : 120;
+    public static string Simplifique_BaseUrl => _configuration.GetSection("Simplifique_URL").Value;
+    public static string PrivateKey => _configuration.GetSection("AppSettings")["PrivateKey"];
+    public static string PublicKey => _configuration.GetSection("AppSettings")["PublicKey"];
+    public static string CreatorPlay_URL => _configuration.GetSection("AppSettings")["CreatorPlay_URL"];
+	public static string JWTSecret => "d5=(o3c}@FR8gc&u]RXaq3jYxI}pkvZJTj0,J)";
 
-	public static string[] OriginCors
+    public static string[] OriginCors
 	{
 		get
 		{

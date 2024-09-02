@@ -38,7 +38,7 @@ public static class Extensions
 
 	public static T FromJson<T>(this string value)
 	{
-		return JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings { ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore });
+		return JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 	}
 
 	public static bool TryParseJson<T>(this string value, out T result)

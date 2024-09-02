@@ -30,4 +30,10 @@
     <ProjectReference Include="..\CreatorPlay.Domain\CreatorPlay.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="WebApi_VivoValoriza.BouncyCrypto">
+      <HintPath>..\..\Dlls\WebApi_VivoValoriza.BouncyCrypto.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

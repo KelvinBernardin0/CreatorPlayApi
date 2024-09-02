@@ -13,93 +13,89 @@ using System.Net;
 namespace CreatorPlay.Application.Users.Commands.UsersCreate;
 
 public class UsersCreateCommandHandler(ILogger<UsersCreateCommandHandler> logger,
-									   ICreatorPlayContext context,
-									   UserManager<ApplicationUser> userManager) : IRequestHandler<UsersCreateCommandRequest, ResponseApi<UsersCreateCommandResponse>>
+                                       ICreatorPlayContext context,
+                                       UserManager<ApplicationUser> userManager) : IRequestHandler<UsersCreateCommandRequest, ResponseApi<UsersCreateCommandResponse>>
 {
-	private readonly ILogger<UsersCreateCommandHandler> _logger = logger;
-	private readonly ICreatorPlayContext _context = context;
-	private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly ILogger<UsersCreateCommandHandler> _logger = logger;
+    private readonly ICreatorPlayContext _context = context;
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
 
-	public async Task<ResponseApi<UsersCreateCommandResponse>> Handle(UsersCreateCommandRequest request, CancellationToken cancellationToken)
-	{
-		var response = new ResponseApi<UsersCreateCommandResponse>();
+    public async Task<ResponseApi<UsersCreateCommandResponse>> Handle(UsersCreateCommandRequest request, CancellationToken cancellationToken)
+    {
+        var response = new ResponseApi<UsersCreateCommandResponse>();
 
-		try
-		{
-			var requestError = await ValidateRequest(request, cancellationToken);
-			if (requestError == null)
-			{
-				var newUser = new ApplicationUser
-				{
-					UserName = request.Email,
-					Email = request.Email,
-					CreatedAt = DateTime.Now
-				};
+        try
+        {
+            var requestError = await ValidateRequest(request, cancellationToken);
+            if (requestError == null)
+            {
+                var newUser = new ApplicationUser
+                {
+                    UserName = request.Email,
+                    Email = request.Email,
+                    CreatedAt = DateTime.Now
+                };
 
-				var userCreated = await _userManager.CreateAsync(newUser, request.Password);
-				if (userCreated.Succeeded)
-				{
-					var role = await _context.ApplicationRole.FirstOrDefaultAsync(x => x.Id == request.RoleId, cancellationToken: cancellationToken);
-					var roleCreated = await _userManager.AddToRoleAsync(newUser, role.Name);
-					if (roleCreated.Succeeded)
-					{
-						response.SetSuccess(new UsersCreateCommandResponse("Cadastro realizado com sucesso!"), HttpStatusCode.Created.GetHashCode());
-					}
-					else
-					{
-						var typeErros = Extensions.GetEnumValues<TypeError>();
+                var userCreated = await _userManager.CreateAsync(newUser, request.Password);
+                if (!userCreated.Succeeded)
+                {
+                    var typeErros = Extensions.GetEnumValues<TypeError>();
+                    foreach (var typeError in typeErros)
+                    {
+                        if (userCreated.Errors.Any(x => x.Code == typeError.ToString()))
+                        {
+                            response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    var role = await _context.ApplicationRole.FirstOrDefaultAsync(x => x.Id == request.RoleId, cancellationToken: cancellationToken);
+                    var roleCreated = await _userManager.AddToRoleAsync(newUser, role.Name);
+                    if (!roleCreated.Succeeded)
+                    {
+                        var typeErros = Extensions.GetEnumValues<TypeError>();
 
-						foreach (var typeError in typeErros)
-						{
-							if (roleCreated.Errors.Any(x => x.Code == typeError.ToString()))
-							{
-								_context.ApplicationUser.Remove(newUser);
-								await _context.SaveChangesAsync(cancellationToken);
+                        foreach (var typeError in typeErros)
+                        {
+                            if (roleCreated.Errors.Any(x => x.Code == typeError.ToString()))
+                            {
+                                await _userManager.DeleteAsync(newUser);
+                                response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+                                return response;
+                            }
+                        }
+                    }
+                    else
+                        response.SetSuccess(new UsersCreateCommandResponse("Cadastro realizado com sucesso!"), HttpStatusCode.Created.GetHashCode());
+                }
+            }
+            else
+                response.SetError(new ResponseError(requestError.Value, requestError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("{Message}", $"Erro in {nameof(UsersCreateCommandHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
+            response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.InternalServerError.GetHashCode());
+        }
 
-								response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
-								return response;
-							}
-						}
-					}
-				}
-				else
-				{
-					var typeErros = Extensions.GetEnumValues<TypeError>();
-					foreach (var typeError in typeErros)
-					{
-						if (userCreated.Errors.Any(x => x.Code == typeError.ToString()))
-						{
-							response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
-							return response;
-						}
-					}
-				}
-			}
-			else
-				response.SetError(new ResponseError(requestError.Value, requestError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("{Message}", $"Erro in {nameof(UsersCreateCommandHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
-			response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.InternalServerError.GetHashCode());
-		}
+        return response;
+    }
 
-		return response;
-	}
+    private async Task<TypeError?> ValidateRequest(UsersCreateCommandRequest request, CancellationToken cancellationToken)
+    {
 
-	private async Task<TypeError?> ValidateRequest(UsersCreateCommandRequest request, CancellationToken cancellationToken)
-	{
+        if (!Extensions.IsValidEmail(request.Email))
+            return TypeError.InvalidEmail;
 
-		if (!Extensions.IsValidEmail(request.Email))
-			return TypeError.InvalidEmail;
+        var duplicateEmail = await _context.ApplicationUser.AnyAsync(x => x.Email == request.Email, cancellationToken);
+        if (duplicateEmail)
+            return TypeError.DuplicateEmail;
 
-		var duplicateEmail = await _context.ApplicationUser.AnyAsync(x => x.Email == request.Email, cancellationToken);
-		if (duplicateEmail)
-			return TypeError.DuplicateEmail;
+        if (request.Password != request.PasswordConfirmation)
+            return TypeError.ConfirmPasswordNotEqual;
 
-		if (request.Password != request.PasswordConfirmation)
-			return TypeError.ConfirmPasswordNotEqual;
-
-		return null;
-	}
+        return null;
+    }
 }
