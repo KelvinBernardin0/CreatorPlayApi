@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
-using System.Runtime.ConstrainedExecution;
-using static WebApi_VivoValoriza.BouncyCrypto.Crypto.Engines.SM2Engine;
 using System.Text;
 using System.Text.Encodings.Web;
 
