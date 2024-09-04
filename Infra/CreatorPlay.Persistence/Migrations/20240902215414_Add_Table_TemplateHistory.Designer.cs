@@ -4,6 +4,7 @@ using CreatorPlay.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CreatorPlay.Persistence.Migrations
 {
     [DbContext(typeof(CreatorPlayContext))]
-    partial class CreatorPlayContextModelSnapshot : ModelSnapshot
+    [Migration("20240902215414_Add_Table_TemplateHistory")]
+    partial class Add_Table_TemplateHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,9 +250,6 @@ namespace CreatorPlay.Persistence.Migrations
                     b.Property<string>("Template")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("TemplateStatus")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

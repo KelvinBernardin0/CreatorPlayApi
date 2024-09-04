@@ -94,7 +94,7 @@ public enum TypeError
 
     #endregion
 
-    #region USUARIO: 1100 a 1199
+    #region USER: 1100 a 1199
 
     [Description("Usuário não encontrado.")]
 
@@ -168,115 +168,13 @@ public enum TypeError
 
     #endregion
 
-    #region SETOR: 1200 a 1299
+   #region TEMPLATEHISTORY: 1200 a 1299
 
-    [Description("Setor já existe.")]
-	SectorAlreadyExists = 1200,
+    [Description("Nome do template é obrigatório.")]
+	TemplateNameRequired = 1200,
 
-	[Description("Setor é obrigatório.")]
-	SectorRequired = 1201,
-
-	[Description("Setor não encontrado.")]
-	SectorNotFound = 1202,
-
-	[Description("Setor CNAE não encontrado.")]
-	SectorCnaeNotFound = 1203,
-
-	[Description("Setor CNAE já foi adicionado.")]
-	SectorCnaeAlreadyExists = 1204,
-
-	[Description("Não é possível excluir o Setor, pois há alguma Oferta que o utiliza, remova todas os registros do setor das ofertas e depois exclua-o novamente.")]
-	LinkedOfferExists = 1205,
-
-	#endregion
-
-	#region DE-PARA: 1300 a 1399
-
-	[Description("DeParaPerfil já existe.")]
-	FromToProfileAlreadyExists = 1300,
-
-	[Description("DeParaPerfil não encontrado.")]
-	FromToProfileNotFound = 1301,
-
-	[Description("Perfil não encontrado.")]
-	ProfileNotFound = 1302,
-
-	#endregion
-
-	#region CATEGORIA: 1400 a 1499
-
-	[Description("Categoria já existe.")]
-	CategoryAlreadyExists = 1400,
-
-	[Description("Categoria é obrigatório.")]
-	CategoryRequired = 1401,
-
-	[Description("Categoria não encontrada!")]
-	CategoryNotFound = 1402,
-
-	#endregion
-
-	#region PARCEIRO: 1500 a 1599
-
-	[Description("Parceiro não encontrado!")]
-	PartnerNotFound = 1500,
-
-	[Description("Pixel identificador não encontrado!")]
-	IdentityPixelNotFound = 1501,
-
-	[Description("Parceiro já existe!")]
-	PartnerAlready = 1502,
-
-	#endregion
-
-	#region OFERTA: 1600 a 1699
-
-	[Description("Oferta não encontrada!")]
-	OfferNotFound = 1600,
-
-	[Description("Atualização de dados e interesses.")]
-	UserDataUpdate = 1601,
-
-	#endregion
-
-	#region GESTOR-RH: 1700 a 1799
-
-	[Description("Não foi possível encontrar o Gestor.")]
-	GestorNotFound = 1700,
-
-	[Description("Não foi possível encontrar o Arquivo.")]
-	InvalidFile = 1701,
-
-	[Description("Colaborador não encontrado.")]
-	ColaboradorNotFound = 1702,
-
-	[Description("Seu CNPJ já possui um cadastro.")]
-	UserGestorAlreadyExists = 1703,
-
-	[Description("Já existe um colaborador cadastrado com essa chave.")]
-	KeyAlreadyExists = 1704,
-
-	#endregion
-
-	#region SSO: 1800 a 1899
-
-	[Description("JWT: Client não encontrado no token.")]
-	ClientNaoEncontradoNoTokenMVE = 1800,
-
-	[Description("JWT: Client não encontrado nas configurações do Vivo Valoriza.")]
-	ClientMVENaoEncontradoNoVivoValoriza = 1801,
-
-	[Description("Sesão expirada.")]
-	SessaoExpirada = 1802,
-
-	[Description("Falha ao criar o usuário na base de dados do VivoValoriza. Por favor, tente mais tarde ou entre em contato com o departamento de suporte técnico.")]
-	FalhaNaCriacaoDeUsuario = 1803,
-
-	[Description("Não foi possível autenticar o usuário. Por favor, tente mais tarde ou entre em contato com o departamento de suporte técnico.")]
-	FalhaGetDadosGestor = 1804,
-
-	[Description("Não foi possível autenticar o usuário. Cnpj informado na requisição inválido.")]
-	CnpjGestorInvalido = 1805
+	[Description("Template é obrigatório.")]
+	TemplateRequired = 1201
 
 	#endregion
 }
