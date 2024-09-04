@@ -45,18 +45,18 @@ public class UsersResetPasswordCommandHandler(ILogger<UsersResetPasswordCommandH
 
                 if (!resultResetPassword.Succeeded)
                 {
+
                     var typeErros = Extensions.GetEnumValues<TypeError>();
+
                     foreach (var typeError in typeErros)
                     {
                         if (resultResetPassword.Errors.Any(x => x.Code == typeError.ToString()))
                         {
+                            _logger.LogError("{Message}", $"Erro in {nameof(UsersResetPasswordCommandHandler)}. Request: {request} - Response: {typeError.GetDescription()}");
                             response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
                             return response;
                         }
                     }
-
-                    _logger.LogError("{Message}", $"Erro in {nameof(UsersResetPasswordCommandHandler)}. Request: {request} - Response: {resultResetPassword.Errors.FirstOrDefault()}");
-                    response.SetError(new ResponseError(TypeError.ResetPasswordFail, TypeError.ResetPasswordFail.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
                 }
                 else
                     response.SetSuccess(new UsersResetPasswordCommandResponse("Senha cadastrada com sucesso!"), HttpStatusCode.OK.GetHashCode());

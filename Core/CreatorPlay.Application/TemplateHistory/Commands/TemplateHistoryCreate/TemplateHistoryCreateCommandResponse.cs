@@ -1,0 +1,3 @@
+namespace CreatorPlay.Application.TemplateHistory.Commands.TemplateHistoryCreate;
+
+public record TemplateHistoryCreateCommandResponse(string Message);
