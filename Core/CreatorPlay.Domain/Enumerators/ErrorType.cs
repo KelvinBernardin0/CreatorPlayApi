@@ -174,7 +174,10 @@ public enum TypeError
 	TemplateNameRequired = 1200,
 
 	[Description("Template é obrigatório.")]
-	TemplateRequired = 1201
+	TemplateRequired = 1201,
 
-	#endregion
+    [Description("Você não tem templates salvos para serem listados.")]
+    TemplateNotFound = 1202
+
+    #endregion
 }
