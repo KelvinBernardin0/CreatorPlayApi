@@ -33,7 +33,7 @@ public class UsersResetPasswordCommandHandler(ILogger<UsersResetPasswordCommandH
             var requestError = await ValidateRequest(request, cancellationToken);
             if (requestError != null)
             {
-                _logger.LogError("{Message}", $"Erro in {nameof(UsersResetPasswordCommandHandler)}. Request: {request} - Response: {requestError.GetDescription()}");
+                _logger.LogError("{Message}", $"Erro in {nameof(UsersResetPasswordCommandHandler)}. Request: {request.ToJson()} - Response: {requestError.GetDescription()}");
                 response.SetError(new ResponseError(requestError.Value, requestError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
             }
             else
@@ -52,7 +52,7 @@ public class UsersResetPasswordCommandHandler(ILogger<UsersResetPasswordCommandH
                     {
                         if (resultResetPassword.Errors.Any(x => x.Code == typeError.ToString()))
                         {
-                            _logger.LogError("{Message}", $"Erro in {nameof(UsersResetPasswordCommandHandler)}. Request: {request} - Response: {typeError.GetDescription()}");
+                            _logger.LogError("{Message}", $"Erro in {nameof(UsersResetPasswordCommandHandler)}. Request: {request.ToJson()} - Response: {typeError.GetDescription()}");
                             response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
                             return response;
                         }
@@ -64,7 +64,7 @@ public class UsersResetPasswordCommandHandler(ILogger<UsersResetPasswordCommandH
         }
         catch (Exception ex)
         {
-            _logger.LogError("{Message}", $"Erro in {nameof(UsersResetPasswordCommandHandler)}. Request: {request} - Exception: {ex.ToJson()}");
+            _logger.LogError("{Message}", $"Erro in {nameof(UsersResetPasswordCommandHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
             response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.InternalServerError.GetHashCode());
         }
         return response;

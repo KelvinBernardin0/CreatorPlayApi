@@ -72,7 +72,7 @@ public class UsersController(IMediator mediator, ILogger<UsersController> logger
     [HttpPost("forgot-password")]
     [ProducesResponseType(typeof(UsersForgotPasswordCommandResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ResetPasswordAsync([FromBody] UsersForgotPasswordCommandRequest request)
+    public async Task<IActionResult> ForgotPasswordAsync([FromBody] UsersForgotPasswordCommandRequest request)
     {
         var response = await _mediator.Send(new UsersForgotPasswordCommandRequest(request.Email));
         return StatusCode(response.HttpStatusCode, response.GetResultData);
