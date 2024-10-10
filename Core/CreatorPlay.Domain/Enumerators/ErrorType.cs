@@ -166,18 +166,32 @@ public enum TypeError
     [Description("Código de recuperação de senha inválido, tente mais tarde ou entre em contato com o departamento de suporte técnico.")]
     CodeForgotPasswordInvalid = 1122,
 
-    #endregion
+	#endregion
 
-   #region TEMPLATEHISTORY: 1200 a 1299
+	#region TEMPLATEHISTORY: 1200 a 1299
 
-    [Description("Nome do template é obrigatório.")]
+	[Description("Nome do template é obrigatório.")]
 	TemplateNameRequired = 1200,
 
 	[Description("Template é obrigatório.")]
 	TemplateRequired = 1201,
 
-    [Description("Você não tem templates salvos para serem listados.")]
-    TemplateNotFound = 1202
+	[Description("Você não tem templates salvos para serem listados.")]
+	TemplateNotFound = 1202,
+	#endregion
 
-    #endregion
+	#region images: 1203 a 1204
+
+	[Description("Nome das imagens é obrigatório.")]
+	ImagesNameRequired = 1203,
+
+	[Description("Images é obrigatório.")]
+	ImagesRequired = 1204,
+
+
+
+
+
+
+	#endregion
 }

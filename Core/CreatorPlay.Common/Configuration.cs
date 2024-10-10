@@ -33,7 +33,7 @@ public static class Configuration
     public static string Simplifique_BaseUrl => _configuration.GetSection("Simplifique_URL").Value;
     public static string PrivateKey => _configuration.GetSection("AppSettings")["PrivateKey"];
     public static string PublicKey => _configuration.GetSection("AppSettings")["PublicKey"];
-    public static string CreatorPlay_URL => _configuration.GetSection("AppSettings")["CreatorPlay_URL"];
+	public static string CreatorPlay_URL => _configuration.GetSection("AppSettings")["CreatorPlay_URL"];
 	public static string JWTSecret => "d5=(o3c}@FR8gc&u]RXaq3jYxI}pkvZJTj0,J)";
 
     public static string[] OriginCors
