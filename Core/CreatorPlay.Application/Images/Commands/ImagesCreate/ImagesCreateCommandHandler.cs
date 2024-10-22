@@ -54,9 +54,9 @@ namespace CreatorPlay.Application.TemplateHistory.Commands.ImagesCreate
 		// Método para salvar a imagem
 		private string SaveFile(IFormFile imageFile, string imageName)
 		{
-			
-			var folderPath = @"E:\App\VivoID\vivoid_v2\front\deploy\creatorPlay";  // Caminho fixo para salvar as imagens
-			//var folderPath = @"C:\Users\kelvin.bernardino\Desktop\VVE";  // Caminho fixo para salvar as imagens
+
+			//var folderPath = @"E:\App\VivoID\vivoid_v2\front\deploy\creatorPlay";  // Caminho fixo para salvar as imagens
+			var folderPath = @"C:\Users\kelvin.bernardino\Desktop\VVE";  // Caminho fixo para salvar as imagens
 			var filePath = Path.Combine(folderPath, imageName);
 
 			// Garantir que o diretório existe
