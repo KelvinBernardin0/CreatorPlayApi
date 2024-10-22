@@ -32,8 +32,9 @@ public class TemplateHistoryCreateCommandHandler(ILogger<TemplateHistoryCreateCo
                 {
                     AspNetUsersId = request.UserId,
                     Name = request.Name,
-                    Template = request.Template,
-                    TemplateStatus = request.TemplateStatus,
+					Template = request.Template,
+					Options = request.Options,
+					TemplateStatus = request.TemplateStatus,
                     CreatedAt = DateTime.Now
                 };
 
