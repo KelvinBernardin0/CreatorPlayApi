@@ -10,20 +10,20 @@ namespace CreatorPlay.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "TemplateStatus",
-                table: "TemplateHistory",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
+            //migrationBuilder.AddColumn<int>(
+            //    name: "TemplateStatus",
+            //    table: "TemplateHistory",
+            //    type: "int",
+            //    nullable: false,
+            //    defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "TemplateStatus",
-                table: "TemplateHistory");
+            //migrationBuilder.DropColumn(
+            //    name: "TemplateStatus",
+            //    table: "TemplateHistory");
         }
     }
 }

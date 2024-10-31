@@ -1,10 +1,9 @@
 using CreatorPlay.Application.Authentication.Commands.AuthenticationCreate;
 using CreatorPlay.Application.Common.Models.Response;
-using CreatorPlay.Presentation.API.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PortalDeBeneficiosApi.Presentation.API.Controllers;
+namespace CreatorPlay.Presentation.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace PortalDeBeneficiosApi.Persistence.Configurations;
+namespace CreatorPlay.Persistence.Configurations;
 
 public class TemplateHistoryEntityTypeConfiguration : IEntityTypeConfiguration<TemplateHistory>
 {
