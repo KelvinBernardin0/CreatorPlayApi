@@ -10,13 +10,14 @@ public class HistoryEntityTypeConfiguration : IEntityTypeConfiguration<History>
 	{
 		builder.ToTable(nameof(History));
 
-		builder.HasKey(h => h.HistoryId).IsClustered();
+		builder.HasKey(h => h.Id).IsClustered();
 		builder.Property(h => h.UserId).IsRequired().HasColumnType("nvarchar(450)"); ;
 		builder.Property(h => h.Description).IsRequired().HasColumnType("nvarchar(500)");
 		builder.Property(h => h.CreatedAt).IsRequired();
-		builder.HasOne<ApplicationUser>().WithMany().HasForeignKey(h => h.UserId).OnDelete(DeleteBehavior.Cascade); 
-		builder.HasOne<Team>().WithMany().HasForeignKey(h => h.TeamId).OnDelete(DeleteBehavior.SetNull); 
+		builder.HasOne<Team>().WithMany().HasForeignKey(h => h.Id).OnDelete(DeleteBehavior.Restrict); 
 		builder.HasIndex(h => h.UserId);
-		builder.HasIndex(h => h.TeamId);
+		builder.HasIndex(h => h.Id);
+
+		builder.HasOne<ApplicationUser>().WithMany(u => u.Histories).HasForeignKey(h => h.UserId) .OnDelete(DeleteBehavior.Restrict);
 	}
 }

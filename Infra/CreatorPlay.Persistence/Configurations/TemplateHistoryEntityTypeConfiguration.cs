@@ -17,6 +17,6 @@ public class TemplateHistoryEntityTypeConfiguration : IEntityTypeConfiguration<T
 		builder.Property(b => b.CreatedAt).IsRequired();
 		builder.Property(b => b.ModifiedAt).IsRequired(false);
         builder.Property(b => b.TemplateStatus).IsRequired();
-        builder.HasOne(b => b.ApplicationUser).WithMany(b => b.TemplateHistorys).HasForeignKey(b => b.AspNetUsersId);
+        builder.HasOne(b => b.ApplicationUser).WithMany(b => b.TemplateHistories).HasForeignKey(b => b.AspNetUsersId);
 	}
 }

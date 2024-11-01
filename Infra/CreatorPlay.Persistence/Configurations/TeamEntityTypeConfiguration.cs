@@ -9,7 +9,7 @@ public class TeamEntityTypeConfiguration : IEntityTypeConfiguration<Team>
 	public void Configure(EntityTypeBuilder<Team> builder)
 	{
 		builder.ToTable(nameof(Team));
-		builder.HasKey(b => b.TeamId).IsClustered();
+		builder.HasKey(b => b.Id).IsClustered();
 		builder.Property(b => b.Name).IsRequired().HasColumnType("nvarchar(256)");
 		builder.Property(b => b.LeaderId).IsRequired();
 		builder.Property(b => b.CreatedAt).IsRequired();

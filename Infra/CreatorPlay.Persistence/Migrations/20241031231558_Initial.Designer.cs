@@ -4,6 +4,7 @@ using CreatorPlay.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CreatorPlay.Persistence.Migrations
 {
     [DbContext(typeof(CreatorPlayContext))]
-    partial class CreatorPlayContextModelSnapshot : ModelSnapshot
+    [Migration("20241031231558_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,14 +196,8 @@ namespace CreatorPlay.Persistence.Migrations
 
             modelBuilder.Entity("CreatorPlay.Domain.Entities.History", b =>
                 {
-                    b.Property<int>("HistoryId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("Id")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistoryId"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -219,13 +216,11 @@ namespace CreatorPlay.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("HistoryId");
+                    b.HasKey("Id");
 
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("HistoryId"));
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("TeamId");
+                    b.HasIndex("Id");
 
                     b.HasIndex("UserId");
 
@@ -267,11 +262,11 @@ namespace CreatorPlay.Persistence.Migrations
 
             modelBuilder.Entity("CreatorPlay.Domain.Entities.Team", b =>
                 {
-                    b.Property<int>("TeamId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -290,9 +285,9 @@ namespace CreatorPlay.Persistence.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("TeamId");
+                    b.HasKey("Id");
 
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("TeamId"));
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.HasIndex("LeaderId");
 
@@ -303,14 +298,11 @@ namespace CreatorPlay.Persistence.Migrations
 
             modelBuilder.Entity("CreatorPlay.Domain.Entities.TeamMember", b =>
                 {
-                    b.Property<int>("TeamMemberId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamMemberId"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -331,11 +323,9 @@ namespace CreatorPlay.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("TeamMemberId");
+                    b.HasKey("Id");
 
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("TeamMemberId"));
-
-                    b.HasIndex("ApplicationUserId");
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.HasIndex("UserId");
 
@@ -366,6 +356,10 @@ namespace CreatorPlay.Persistence.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Options")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(MAX)");
 
                     b.Property<string>("Template")
                         .IsRequired()
@@ -491,19 +485,16 @@ namespace CreatorPlay.Persistence.Migrations
 
             modelBuilder.Entity("CreatorPlay.Domain.Entities.History", b =>
                 {
-                    b.HasOne("CreatorPlay.Domain.Entities.ApplicationUser", null)
-                        .WithMany("Historys")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("CreatorPlay.Domain.Entities.Team", null)
                         .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("CreatorPlay.Domain.Entities.ApplicationUser", null)
-                        .WithMany()
+                        .WithMany("Histories")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -518,18 +509,14 @@ namespace CreatorPlay.Persistence.Migrations
 
             modelBuilder.Entity("CreatorPlay.Domain.Entities.TeamMember", b =>
                 {
-                    b.HasOne("CreatorPlay.Domain.Entities.ApplicationUser", null)
-                        .WithMany("Teams")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("CreatorPlay.Domain.Entities.Team", null)
                         .WithMany("Members")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CreatorPlay.Domain.Entities.ApplicationUser", null)
-                        .WithMany()
+                        .WithMany("Teams")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -538,7 +525,7 @@ namespace CreatorPlay.Persistence.Migrations
             modelBuilder.Entity("CreatorPlay.Domain.Entities.TemplateHistory", b =>
                 {
                     b.HasOne("CreatorPlay.Domain.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany("TemplateHistorys")
+                        .WithMany("TemplateHistories")
                         .HasForeignKey("AspNetUsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -599,11 +586,11 @@ namespace CreatorPlay.Persistence.Migrations
 
             modelBuilder.Entity("CreatorPlay.Domain.Entities.ApplicationUser", b =>
                 {
-                    b.Navigation("Historys");
+                    b.Navigation("Histories");
 
                     b.Navigation("Teams");
 
-                    b.Navigation("TemplateHistorys");
+                    b.Navigation("TemplateHistories");
                 });
 
             modelBuilder.Entity("CreatorPlay.Domain.Entities.Team", b =>

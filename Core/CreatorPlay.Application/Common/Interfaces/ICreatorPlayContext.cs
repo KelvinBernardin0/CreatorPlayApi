@@ -10,8 +10,11 @@ public interface ICreatorPlayContext
 	DbSet<ApplicationRole> ApplicationRole { get; set; }
 	DbSet<ApplicationUser> ApplicationUser { get; set; }
     DbSet<GlobalConfiguration> GlobalConfiguration { get; set; }
-    DbSet<Domain.Entities.TemplateHistory> TemplateHistory { get; set; }
-    DbSet<Domain.Entities.LogActivity> LogActivity { get; set; }
+	DbSet<Domain.Entities.Team> Team { get; set; }
+	DbSet<Domain.Entities.TeamMember> TeamMember { get; set; }
+	DbSet<History> History { get; set; }
+	DbSet<Domain.Entities.TemplateHistory> TemplateHistory { get; set; }
+	DbSet<Domain.Entities.LogActivity> LogActivity { get; set; }
 
     IExecutionStrategy CreateExecutionStrategy();
 	Task<int> SaveChangesAsync(CancellationToken cancellationToken);

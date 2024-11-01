@@ -4,9 +4,23 @@ namespace CreatorPlay.Domain.Entities;
 
 public class TeamMember : BaseEntity
 {
-	public int TeamMemberId { get; set; }
-	public int TeamId { get; set; }
-	public string UserId { get; set; }
-	public bool IsLeader { get; set; }
-	public Status Status { get; set; } = Status.Active;
+	public int Id { get; private set; }
+	public int TeamId { get; private set; }
+	public string UserId { get; private set; }
+	public bool IsLeader { get; private set; }
+	public Status Status { get; private set; } = Status.Active;
+
+	public void AddTeamMember(int teamId, string userId, bool isLeader)
+	{
+		TeamId = teamId;
+		UserId = userId;
+		IsLeader = isLeader;
+	}
+
+	public void AddTeamMember(int teamId, string userId)
+	{
+		TeamId = teamId;
+		UserId = userId;
+		IsLeader = false;
+	}
 }

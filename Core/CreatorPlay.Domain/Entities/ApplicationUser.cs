@@ -7,7 +7,7 @@ public class ApplicationUser : IdentityUser
 	public DateTime CreatedAt { get; set; }
 	public DateTime? ModifiedAt { get; set; }
 
-    public ICollection<TemplateHistory> TemplateHistorys { get; set; }
+    public ICollection<TemplateHistory> TemplateHistories { get; set; }
 	public ICollection<TeamMember> Teams { get; set; }
-	public ICollection<History> Historys { get; set; }
+	public ICollection<History> Histories { get; set; }
 }

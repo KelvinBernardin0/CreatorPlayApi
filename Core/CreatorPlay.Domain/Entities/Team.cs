@@ -4,11 +4,16 @@ namespace CreatorPlay.Domain.Entities;
 
 public class Team : BaseEntity
 {
-	public int TeamId { get; set; }
-	public string Name { get; set; }
-	public string LeaderId { get; set; }
-	public Status Status { get; set; } = Status.Active;
+	public int Id { get; private set; }
+	public string Name { get; private set; }
+	public string LeaderId { get; private set; }
+	public Status Status { get; private set; } = Status.Active;
 
 	public ICollection<TeamMember> Members { get; set; }
-}
 
+	public void AddTeam(string name, string leaderId)
+	{
+		Name = name;
+		LeaderId = leaderId;
+	}
+}

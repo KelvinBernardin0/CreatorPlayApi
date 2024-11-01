@@ -180,18 +180,30 @@ public enum TypeError
 	TemplateNotFound = 1202,
 	#endregion
 
-	#region images: 1203 a 1204
+	#region IMAGES: 1300 a 1399
 
 	[Description("Nome das imagens é obrigatório.")]
-	ImagesNameRequired = 1203,
+	ImagesNameRequired = 1300,
 
 	[Description("Images é obrigatório.")]
-	ImagesRequired = 1204,
+	ImagesRequired = 1301,
 
+	#endregion
 
+	#region TEAM: 1400 a 1499
 
+	[Description("Nome da equipe é obrigatório.")]
+	TeamNameRequired = 1400,
 
+	[Description("Id do líder da equipe é obrigatório.")]
+	TeamLeaderIdRequired = 1401,
 
+	#endregion
+
+	#region TEAMMEMBER: 1500 a 1599
+
+	[Description("Usuário já está cadastrado na equipe.")]
+	MemberAlreadyExistsInTeam = 1500
 
 	#endregion
 }
