@@ -1,5 +1,6 @@
 using CreatorPlay.Application.Common.Models.Response;
 using CreatorPlay.Application.TeamMember.Commands.TeamMemberCreate;
+using CreatorPlay.Application.TeamMember.Commands.TeamMemberDelete;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,4 +22,14 @@ public class TeamMemberController(IMediator mediator) : BaseController
 		var response = await _mediator.Send(request);
 		return StatusCode(response.HttpStatusCode, response.GetResultData);
 	}
+
+    [HttpPut()]
+    [ProducesResponseType(typeof(TeamMemberDeleteCommandResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> DeleteTeamMemberAsync([FromBody] TeamMemberDeleteCommandRequest request)
+    {
+        request.UserId = JwtUserData().Id;
+        var response = await _mediator.Send(request);
+        return StatusCode(response.HttpStatusCode, response.GetResultData);
+    }
 }

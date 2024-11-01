@@ -1,5 +1,5 @@
-﻿using Azure;
-using CreatorPlay.Application.Common.Interfaces;
+﻿using CreatorPlay.Application.Common.Interfaces;
+using CreatorPlay.Application.Common.Models.Error;
 using CreatorPlay.Application.Common.Models.Response;
 using CreatorPlay.Application.Team.Commands.TeamCreate;
 using CreatorPlay.Application.TeamMember.Commands.TeamMemberCreate;
@@ -9,53 +9,48 @@ using CreatorPlay.Domain.Entities;
 using CreatorPlay.Domain.Enumerators;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
 
 
 namespace CreatorPlay.Application.TeamMember.Commands.TeamMemberDelete
 {
-    public class TeamMemberDeleteCommandHandler(ILogger<TeamMemberDeleteCommandHandler> logger, ICreatorPlayContext context,
-                                                 UserManager<ApplicationUser> userManager) : IRequestHandler<TeamMemberDeleteCommandRequest, ResponseApi<TeamMemberDeleteCommandResponse>>
+    public class TeamMemberDeleteCommandHandler(ILogger<TeamMemberDeleteCommandHandler> logger, ICreatorPlayContext context)
+                                                : IRequestHandler<TeamMemberDeleteCommandRequest, ResponseApi<TeamMemberDeleteCommandResponse>>
     {
         private readonly ILogger<TeamMemberDeleteCommandHandler> _logger = logger;
         private readonly ICreatorPlayContext _context = context;
-        private readonly UserManager<ApplicationUser> _userManager = userManager;
+        
 
         public async Task<ResponseApi<TeamMemberDeleteCommandResponse>> Handle(TeamMemberDeleteCommandRequest request, CancellationToken cancellationToken)
         {
             var response = new ResponseApi<TeamMemberDeleteCommandResponse>();
             try
-            {
-                var user = await _userManager.FindByIdAsync(request.UserId);
-                //user.Email = request.Email;
-                user.ModifiedAt = DateTime.Now;
+            {   
+                var teamMember = await _context.TeamMember.FirstOrDefaultAsync(x => x.UserId == request.UserId && x.TeamId == request.TeamId, cancellationToken);
+                
 
-                var changePassword = await _userManager.ChangePasswordAsync(user, request.Password, request.PasswordConfirmation);
-
-                if (!changePassword.Succeeded)
+                if (teamMember == null) 
                 {
-                    var typeErrors = Extensions.GetEnumValues<TypeError>();
-                    foreach (var typeError in typeErrors)
-                    {
-                        if (changePassword.Errors.Any(x => x.Code == typeError.ToString()))
-                        {
-                            response.SetError(new ResponseError(typeError, typeError.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
-                            return response;
-                        }
-                    }
-                }
+                    response.SetError(new ResponseError(TypeError.DefaultError, "Equipe não encontrada"), HttpStatusCode.BadRequest.GetHashCode());
+                    return response;
 
-                _context.ApplicationUser.Update(user);
+                }
+                teamMember.SetStatusTeamMember(Status.Inactive);
+
+                _context.TeamMember.Update(teamMember);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                response.SetSuccess(new UsersUpdateCommandResponse($"Usuário {user.Email} atualizado com sucesso!"), HttpStatusCode.OK.GetHashCode());
+                response.SetSuccess(new TeamMemberDeleteCommandResponse("Equipe Deletado com sucesso!"), HttpStatusCode.OK.GetHashCode());
             }
             catch (Exception ex)
             {
-                _logger.LogError("{Message}", $"Erro in {nameof(TeamMemberCreateCommandHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
+                _logger.LogError("{Message}", $"Erro in {nameof(TeamMemberDeleteCommandHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
                 response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.InternalServerError.GetHashCode());
             }
+
+            return response;
         }
     }
 }

@@ -23,4 +23,9 @@ public class TeamMember : BaseEntity
 		UserId = userId;
 		IsLeader = false;
 	}
+
+    public void SetStatusTeamMember(Status status)
+    {
+        Status = status;
+    }
 }
