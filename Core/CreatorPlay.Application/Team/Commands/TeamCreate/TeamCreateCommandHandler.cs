@@ -13,13 +13,10 @@ using System.Net;
 
 namespace CreatorPlay.Application.Team.Commands.TeamCreate;
 
-public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, ICreatorPlayContext context,
-												 UserManager<ApplicationUser> userManager,
-												 IMediator mediator) : IRequestHandler<TeamCreateCommandRequest, ResponseApi<TeamCreateCommandResponse>>
+public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, ICreatorPlayContext context, IMediator mediator) : IRequestHandler<TeamCreateCommandRequest, ResponseApi<TeamCreateCommandResponse>>
 {
 	private readonly ILogger<TeamCreateCommandHandler> _logger = logger;
 	private readonly ICreatorPlayContext _context = context;
-	private readonly UserManager<ApplicationUser> _userManager = userManager;
 	private readonly IMediator _mediator = mediator;
 
 	public async Task<ResponseApi<TeamCreateCommandResponse>> Handle(TeamCreateCommandRequest request, CancellationToken cancellationToken)
