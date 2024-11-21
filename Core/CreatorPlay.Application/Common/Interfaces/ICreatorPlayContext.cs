@@ -12,7 +12,7 @@ public interface ICreatorPlayContext
     DbSet<GlobalConfiguration> GlobalConfiguration { get; set; }
 	DbSet<Domain.Entities.Team> Team { get; set; }
 	DbSet<Domain.Entities.TeamMember> TeamMember { get; set; }
-	DbSet<History> History { get; set; }
+	DbSet<Domain.Entities.History> History { get; set; }
 	DbSet<Domain.Entities.TemplateHistory> TemplateHistory { get; set; }
 	DbSet<Domain.Entities.LogActivity> LogActivity { get; set; }
 

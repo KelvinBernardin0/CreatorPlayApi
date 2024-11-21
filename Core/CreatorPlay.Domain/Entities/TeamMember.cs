@@ -6,7 +6,7 @@ public class TeamMember : BaseEntity
 {
 	public int Id { get; private set; }
 	public int TeamId { get; private set; }
-	public string UserId { get; private set; }
+	public string? UserId { get; private set; }
 	public bool IsLeader { get; private set; }
 	public Status Status { get; private set; } = Status.Active;
 

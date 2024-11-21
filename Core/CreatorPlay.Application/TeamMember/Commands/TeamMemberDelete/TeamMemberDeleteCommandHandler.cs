@@ -1,14 +1,9 @@
 ﻿using CreatorPlay.Application.Common.Interfaces;
 using CreatorPlay.Application.Common.Models.Error;
 using CreatorPlay.Application.Common.Models.Response;
-using CreatorPlay.Application.Team.Commands.TeamCreate;
-using CreatorPlay.Application.TeamMember.Commands.TeamMemberCreate;
-using CreatorPlay.Application.Users.Commands.UsersUpdate;
 using CreatorPlay.Common;
-using CreatorPlay.Domain.Entities;
 using CreatorPlay.Domain.Enumerators;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -28,21 +23,19 @@ namespace CreatorPlay.Application.TeamMember.Commands.TeamMemberDelete
             var response = new ResponseApi<TeamMemberDeleteCommandResponse>();
             try
             {   
-                var teamMember = await _context.TeamMember.FirstOrDefaultAsync(x => x.UserId == request.UserId && x.TeamId == request.TeamId, cancellationToken);
-                
+                var teamMember = await _context.TeamMember.FirstOrDefaultAsync(x => x.UserId == request.UserId && x.TeamId == request.TeamId, cancellationToken);                
 
                 if (teamMember == null) 
                 {
                     response.SetError(new ResponseError(TypeError.DefaultError, "Equipe não encontrada"), HttpStatusCode.BadRequest.GetHashCode());
                     return response;
-
                 }
                 teamMember.SetStatusTeamMember(Status.Inactive);
 
                 _context.TeamMember.Update(teamMember);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                response.SetSuccess(new TeamMemberDeleteCommandResponse("Equipe Deletado com sucesso!"), HttpStatusCode.OK.GetHashCode());
+                response.SetSuccess(new TeamMemberDeleteCommandResponse("Usuário Deletado com sucesso!"), HttpStatusCode.OK.GetHashCode());
             }
             catch (Exception ex)
             {

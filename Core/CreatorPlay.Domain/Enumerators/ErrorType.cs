@@ -193,17 +193,28 @@ public enum TypeError
 	#region TEAM: 1400 a 1499
 
 	[Description("Nome da equipe é obrigatório.")]
-	TeamNameRequired = 1400,
+	TeamNameRequired = 1400,    
 
-	[Description("Id do líder da equipe é obrigatório.")]
+    [Description("Id do líder da equipe é obrigatório.")]
 	TeamLeaderIdRequired = 1401,
 
-	#endregion
+     
 
-	#region TEAMMEMBER: 1500 a 1599
+    #endregion
 
-	[Description("Usuário já está cadastrado na equipe.")]
-	MemberAlreadyExistsInTeam = 1500
+    #region TEAMMEMBER: 1500 a 1599
 
-	#endregion
+    [Description("Usuário já está cadastrado na equipe.")]
+	MemberAlreadyExistsInTeam = 1500,
+
+
+
+    #endregion
+
+    #region History: 1600 a 1699
+
+    [Description("Descrição é obrigatório.")]
+    HistoryDescriptionRequired = 1600,
+
+    #endregion
 }
