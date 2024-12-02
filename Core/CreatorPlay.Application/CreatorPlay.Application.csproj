@@ -36,4 +36,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Team\Queries\" />
+  </ItemGroup>
+
 </Project>

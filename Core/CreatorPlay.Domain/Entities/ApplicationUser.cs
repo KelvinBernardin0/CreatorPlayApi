@@ -8,6 +8,6 @@ public class ApplicationUser : IdentityUser
 	public DateTime? ModifiedAt { get; set; }
 
     public ICollection<TemplateHistory> TemplateHistories { get; set; }
-	public ICollection<TeamMember> Teams { get; set; }
-	public ICollection<History> Histories { get; set; }
+	public ICollection<TeamMember> Teams { get; set; }    
+    public ICollection<History> Histories { get; set; }
 }
