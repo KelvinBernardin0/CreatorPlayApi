@@ -27,9 +27,18 @@ public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, 
 			if (requestError == null)
 			{
 				var newTeam = new Domain.Entities.Team();
-				newTeam.AddTeam(request.Name, request.LeaderId);
+				
 
-				await _context.Team.AddAsync(newTeam, cancellationToken);
+                var teamAlreadyExists = await _context.Team.AnyAsync(x => x.Name == request.Name,  cancellationToken);
+				if(teamAlreadyExists)
+                {
+                    response.SetError(new ResponseError(TypeError.TeamAlreadyExistsInTeam, TypeError.TeamAlreadyExistsInTeam.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+                    return response;
+                }			
+
+                newTeam.AddTeam(request.Name, request.LeaderId);
+
+                await _context.Team.AddAsync(newTeam, cancellationToken);
 				await _context.SaveChangesAsync(cancellationToken);
 
 				await _mediator.Send(new TeamMemberCreateCommandRequest(newTeam.LeaderId, newTeam.Id, true, default), cancellationToken);

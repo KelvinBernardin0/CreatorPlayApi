@@ -198,7 +198,9 @@ public enum TypeError
     [Description("Id do líder da equipe é obrigatório.")]
 	TeamLeaderIdRequired = 1401,
 
-     
+    [Description("Equipe já está cadastrada.")]
+    TeamAlreadyExistsInTeam = 1402,
+
 
     #endregion
 
