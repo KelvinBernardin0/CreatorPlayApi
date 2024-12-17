@@ -21,6 +21,7 @@ namespace CreatorPlay.Application.TeamMember.Commands.TeamMemberDelete
         public async Task<ResponseApi<TeamMemberDeleteCommandResponse>> Handle(TeamMemberDeleteCommandRequest request, CancellationToken cancellationToken)
         {
             var response = new ResponseApi<TeamMemberDeleteCommandResponse>();
+            
             try
             {   
                 var teamMember = await _context.TeamMember.FirstOrDefaultAsync(x => x.UserId == request.UserId && x.TeamId == request.TeamId, cancellationToken);                

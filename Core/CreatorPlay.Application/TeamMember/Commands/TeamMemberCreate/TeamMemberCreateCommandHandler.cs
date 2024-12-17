@@ -20,22 +20,67 @@ public class TeamMemberCreateCommandHandler(ILogger<TeamMemberCreateCommandHandl
 
 	public async Task<ResponseApi<TeamMemberCreateCommandResponse>> Handle(TeamMemberCreateCommandRequest request, CancellationToken cancellationToken)
 	{
+		// var response = new ResponseApi<TeamMemberCreateCommandResponse>();
+
+		// try
+		// {
+		// 	var newTeamMember = new Domain.Entities.TeamMember();
+
+		// 	if (request.IsLeader)
+		// 	{
+		// 		newTeamMember.AddTeamMember(request.TeamId, request.UserId, request.IsLeader);
+        //         var user = await _context.ApplicationUser.FirstOrDefaultAsync(x => x.Id == request.UserId || x.Email==request.UserEmail, cancellationToken);
+
+        //         if (!Extensions.IsValidEmail(user.Email))
+		// 		{
+		// 			response.SetError(new ResponseError(TypeError.InvalidEmail, TypeError.InvalidEmail.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+		// 			return response;
+		// 		}
+				
+		// 		if (user != null)
+		// 		{
+		// 			var memberAlreadyExists = await _context.TeamMember.AnyAsync(x => x.UserId == user.Id && x.TeamId == request.TeamId, cancellationToken);
+		// 			if (memberAlreadyExists)
+		// 			{
+		// 				response.SetError(new ResponseError(TypeError.MemberAlreadyExistsInTeam, TypeError.MemberAlreadyExistsInTeam.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+		// 				return response;
+		// 			}
+		// 			newTeamMember.AddTeamMember(request.TeamId, user.Id);
+		// 		}
+		// 		else
+		// 		{
+		// 			response.SetError(new ResponseError(TypeError.EmailNotFound, TypeError.EmailNotFound.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+		// 			return response;
+		// 		}
+		// 	}
+
+		// 	await _context.TeamMember.AddAsync(newTeamMember, cancellationToken);
+		// 	await _context.SaveChangesAsync(cancellationToken);
+
+		// 	response.SetSuccess(new TeamMemberCreateCommandResponse("Membro da equipe adicinado com sucesso!"), HttpStatusCode.Created.GetHashCode());
+		// }
+		// catch (Exception ex)
+		// {
+		// 	_logger.LogError("{Message}", $"Erro in {nameof(TeamMemberCreateCommandHandler)}. Request: {request.ToJson()} - Exception: {ex.ToJson()}");
+		// 	response.SetError(new ResponseError(TypeError.DefaultError, TypeError.DefaultError.GetDescription()), HttpStatusCode.InternalServerError.GetHashCode());
+		// }
+
+		// return response;
+
 		var response = new ResponseApi<TeamMemberCreateCommandResponse>();
 
 		try
 		{
+
+var teamLeader = await _context.TeamMember.FirstOrDefaultAsync(x=>x.TeamId==request.TeamId && x.IsLeader==true , cancellationToken);
+if (teamLeader== null  || teamLeader.UserId== request.RequestUserId){
+
 			var newTeamMember = new Domain.Entities.TeamMember();
 
-			if (request.IsLeader)
-			{
-				newTeamMember.AddTeamMember(request.TeamId, request.UserId, request.IsLeader);
+				
                 var user = await _context.ApplicationUser.FirstOrDefaultAsync(x => x.Id == request.UserId || x.Email==request.UserEmail, cancellationToken);
 
-                if (!Extensions.IsValidEmail(user.Email))
-				{
-					response.SetError(new ResponseError(TypeError.InvalidEmail, TypeError.InvalidEmail.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
-					return response;
-				}
+				
 				
 				if (user != null)
 				{
@@ -45,19 +90,29 @@ public class TeamMemberCreateCommandHandler(ILogger<TeamMemberCreateCommandHandl
 						response.SetError(new ResponseError(TypeError.MemberAlreadyExistsInTeam, TypeError.MemberAlreadyExistsInTeam.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
 						return response;
 					}
-					newTeamMember.AddTeamMember(request.TeamId, user.Id);
+					var leaderAlreadyExists = await _context.TeamMember.AnyAsync(x => x.IsLeader ==true && x.TeamId == request.TeamId, cancellationToken);
+					if (request.IsLeader && leaderAlreadyExists)
+					{
+						response.SetError(new ResponseError(TypeError.LeaderAlreadyExistsInTeam, TypeError.LeaderAlreadyExistsInTeam.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
+						return response;
+					}
+					newTeamMember.AddTeamMember(request.TeamId, user.Id, request.IsLeader);
+					await _context.TeamMember.AddAsync(newTeamMember, cancellationToken);
+					await _context.SaveChangesAsync(cancellationToken);	
+					response.SetSuccess(new TeamMemberCreateCommandResponse("Membro da equipe adicinado com sucesso!"), HttpStatusCode.Created.GetHashCode());
+
 				}
 				else
 				{
 					response.SetError(new ResponseError(TypeError.EmailNotFound, TypeError.EmailNotFound.GetDescription()), HttpStatusCode.BadRequest.GetHashCode());
 					return response;
 				}
-			}
+			
+}else{
+					response.SetError(new ResponseError(TypeError.NotTeamLeader, TypeError.NotTeamLeader.GetDescription()), HttpStatusCode.Forbidden.GetHashCode());
+					return response;
+}
 
-			await _context.TeamMember.AddAsync(newTeamMember, cancellationToken);
-			await _context.SaveChangesAsync(cancellationToken);
-
-			response.SetSuccess(new TeamMemberCreateCommandResponse("Membro da equipe adicinado com sucesso!"), HttpStatusCode.Created.GetHashCode());
 		}
 		catch (Exception ex)
 		{

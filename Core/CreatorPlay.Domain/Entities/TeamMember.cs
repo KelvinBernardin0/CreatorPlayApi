@@ -21,7 +21,6 @@ public class TeamMember : BaseEntity
 	{
 		TeamId = teamId;
 		UserId = userId;
-		IsLeader = false;
 	}
 
     public void SetStatusTeamMember(Status status)

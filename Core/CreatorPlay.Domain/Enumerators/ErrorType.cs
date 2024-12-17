@@ -211,7 +211,11 @@ public enum TypeError
 
     [Description("Usu�rio j� est� cadastrado na equipe.")]
 	MemberAlreadyExistsInTeam = 1500,
+	[Description("A equipe já possui um lider.")]
+	LeaderAlreadyExistsInTeam = 1501,
 
+	[Description("Apenas o lider da equipe pode executar essa ação.")]
+	NotTeamLeader = 1502,
 
 
     #endregion

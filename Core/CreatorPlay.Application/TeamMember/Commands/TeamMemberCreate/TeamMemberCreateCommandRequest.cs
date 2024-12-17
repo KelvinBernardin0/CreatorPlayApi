@@ -12,12 +12,15 @@ public record TeamMemberCreateCommandRequest : IRequest<ResponseApi<TeamMemberCr
 	public bool IsLeader { get; set; }
 	public int TeamId { get; set; }
 	public string? UserEmail { get; set; }
+	[JsonIgnore]
+	public string? RequestUserId  { get; set; }
 
-	public TeamMemberCreateCommandRequest(string? userId, int teamId, bool isLeader = default,  string? userEmail = default)
+	public TeamMemberCreateCommandRequest(string? userId, int teamId, bool isLeader = default,  string? userEmail = default,string requestUserId = default )
 	{
 		UserId = userId;
 		TeamId = teamId;
 		IsLeader = isLeader;
 		UserEmail = userEmail;
+		RequestUserId=requestUserId;
 	}
 }

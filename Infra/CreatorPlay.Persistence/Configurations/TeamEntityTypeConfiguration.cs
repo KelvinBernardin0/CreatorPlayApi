@@ -11,11 +11,11 @@ public class TeamEntityTypeConfiguration : IEntityTypeConfiguration<Team>
 		builder.ToTable(nameof(Team));
 		builder.HasKey(b => b.Id).IsClustered();
 		builder.Property(b => b.Name).IsRequired().HasColumnType("nvarchar(256)");
-		builder.Property(b => b.LeaderId).IsRequired();
+		// builder.Property(b => b.LeaderId).IsRequired();
 		builder.Property(b => b.CreatedAt).IsRequired();
 		builder.Property(b => b.Status).IsRequired();
-		builder.HasOne<ApplicationUser>().WithMany().HasForeignKey(b => b.LeaderId).OnDelete(DeleteBehavior.Restrict);
-		builder.HasIndex(b => b.LeaderId);
+		// builder.HasOne<ApplicationUser>().WithMany().HasForeignKey(b => b.LeaderId).OnDelete(DeleteBehavior.Restrict);
+		// builder.HasIndex(b => b.LeaderId);
 		builder.HasIndex(b => b.Status);
 	}
 }
