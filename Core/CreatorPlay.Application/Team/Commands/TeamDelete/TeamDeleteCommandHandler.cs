@@ -23,20 +23,25 @@ namespace CreatorPlay.Application.Team.Commands.TeamDelete
             var response = new ResponseApi<TeamDeleteCommandResponse>();
             try
             {
-                
-                var team = await _context.Team.FirstOrDefaultAsync(x => x.LeaderId == request.LeaderId, cancellationToken);
+
+               var team = await _context.Team.FirstOrDefaultAsync(x => x.Id == request.TeamId, cancellationToken);
+
                 if (team == null)
                 {
                     response.SetError(new ResponseError(TypeError.DefaultError, "Lider não encontrada"), HttpStatusCode.BadRequest.GetHashCode());
                     return response;
                 }
+                var teamMember = await _context.TeamMember.FirstOrDefaultAsync(x=>x.TeamId==request.TeamId && x.IsLeader==true,cancellationToken);
+            if(teamMember!= null && teamMember.UserId == request.RequestUserId){
 
+       
                 team.SetStatusTeam(Status.Inactive);
 
                 _context.Team.Update(team);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 response.SetSuccess(new TeamDeleteCommandResponse("Equipe Deletado com sucesso!"), HttpStatusCode.OK.GetHashCode());
+                     }
             }
             catch (Exception ex)
             {

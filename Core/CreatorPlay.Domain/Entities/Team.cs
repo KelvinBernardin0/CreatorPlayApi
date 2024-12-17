@@ -6,7 +6,6 @@ public class Team : BaseEntity
 {
 	public int Id { get; private set; }
 	public string? Name { get; private set; }
-	public string? LeaderId { get; private set; }
 	public string Creator { get; set; }
 	public string Description { get; set; }
 	public DateTime DeactivationDate { get; set; }
@@ -14,10 +13,9 @@ public class Team : BaseEntity
 	public Status Status { get; private set; } = Status.Active;
 
 	public ICollection<TeamMember> Members { get; set; }
-	public Team(string name, string leaderId,string description,string creator)
+	public Team(string name,string description,string creator)
 	{
 		Name = name;
-		LeaderId = leaderId;
 		Description=description;
 		Creator=creator;
 		Active=true;

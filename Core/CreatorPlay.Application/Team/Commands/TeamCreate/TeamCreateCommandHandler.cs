@@ -20,7 +20,7 @@ public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, 
 	public async Task<ResponseApi<TeamCreateCommandResponse>> Handle(TeamCreateCommandRequest request, CancellationToken cancellationToken)
 	{
 		var response = new ResponseApi<TeamCreateCommandResponse>();
-		var IsLeader = false;
+
 		try
 		{
 			var requestError = ValidateRequest(request);
@@ -28,11 +28,10 @@ public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, 
 			{
 				if (string.IsNullOrEmpty(request.LeaderId)){
 					request.LeaderId =  request.Creator;
-					IsLeader = true;
 				}
 					
 
-				var newTeam = new Domain.Entities.Team(request.Name, request.LeaderId,request.Description,request.Creator);
+				var newTeam = new Domain.Entities.Team(request.Name,request.Description,request.Creator);
 				
 
                 var teamAlreadyExists = await _context.Team.AnyAsync(x => x.Name == request.Name,  cancellationToken);
@@ -42,12 +41,15 @@ public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, 
                     return response;
                 }			
 
-                // newTeam.AddTeam(request.Name, request.LeaderId,request.Description,request.Creator,DateTime.UtcNow);
-
                 await _context.Team.AddAsync(newTeam, cancellationToken);
 				await _context.SaveChangesAsync(cancellationToken);
 
-				await _mediator.Send(new TeamMemberCreateCommandRequest(newTeam.LeaderId, newTeam.Id, IsLeader, default), cancellationToken);
+                var teste = from team_ in _context.Team
+            join teamMember in _context.TeamMember
+                on team_.Id equals teamMember.TeamId
+            select new { team_, teamMember };
+
+				await _mediator.Send(new TeamMemberCreateCommandRequest(request.LeaderId, newTeam.Id, true, default, request.Creator), cancellationToken);
 
 				response.SetSuccess(new TeamCreateCommandResponse(newTeam.Id), HttpStatusCode.Created.GetHashCode());
 			}

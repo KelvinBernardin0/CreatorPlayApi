@@ -7,11 +7,12 @@ namespace CreatorPlay.Application.Team.Commands.TeamDelete
     public record TeamDeleteCommandRequest : IRequest<ResponseApi<TeamDeleteCommandResponse>>
     {
         [JsonIgnore]
-        public string? LeaderId { get; set; }       
+        public int TeamId { get; set; }  
+        public string RequestUserId { get; set; }     
 
-        public TeamDeleteCommandRequest(string leaderId)
+        public TeamDeleteCommandRequest(int teamId)
         {
-            LeaderId = leaderId;            
+            TeamId = teamId;            
         }
     }
 }

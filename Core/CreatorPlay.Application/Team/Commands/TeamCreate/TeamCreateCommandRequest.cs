@@ -7,7 +7,7 @@ namespace CreatorPlay.Application.Team.Commands.TeamCreate;
 public record TeamCreateCommandRequest : IRequest<ResponseApi<TeamCreateCommandResponse>>
 {
 
-    public string LeaderId { get; set; }
+    public string? LeaderId { get; set; }
 	public required string Name { get; set; }
 	[JsonIgnore]
 	public string? Creator { get; set; }
