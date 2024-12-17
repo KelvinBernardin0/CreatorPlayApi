@@ -6,7 +6,7 @@ public enum TypeError
 {
     #region VVEAPI: 800 A 899
 
-    [Description("Erro na requisição da API de validação de CNPJ.")]
+    [Description("Erro na requisiï¿½ï¿½o da API de validaï¿½ï¿½o de CNPJ.")]
 	ErrorCNPJvalidationAPI = 800,
 
 	#endregion
@@ -16,19 +16,19 @@ public enum TypeError
 	[Description("Ocorreu um erro interno.")]
 	DefaultError = 900,
 
-	[Description("Campo obrigatório.")]
+	[Description("Campo obrigatï¿½rio.")]
 	Required = 901,
 
-	[Description("CNPJ inválido.")]
+	[Description("CNPJ invï¿½lido.")]
 	InvalidCnpj = 902,
 
-	[Description("CNPJ informado não encontrado.")]
+	[Description("CNPJ informado nï¿½o encontrado.")]
 	CNPNotFound = 903,
 
-	[Description("Não foi possível encontrar a Razão Social da Empresa, verifique o CNPJ ou entre em contato com o seu RH.")]
+	[Description("Nï¿½o foi possï¿½vel encontrar a Razï¿½o Social da Empresa, verifique o CNPJ ou entre em contato com o seu RH.")]
 	CompanyNameNotFound = 904,
 
-	[Description("Ocorreu o erro ao tentar enviar o e-mail. Contatar o departamento de suporte técnico.")]
+	[Description("Ocorreu o erro ao tentar enviar o e-mail. Contatar o departamento de suporte tï¿½cnico.")]
 	SendMailFail = 905,
 
 	#endregion
@@ -38,28 +38,28 @@ public enum TypeError
 	[Description("Senhas devem conter ao menos um caracter especial.")]
 	PasswordRequiresNonAlphanumeric = 1000,
 
-	[Description("Email já está sendo utilizado.")]
+	[Description("Email jï¿½ estï¿½ sendo utilizado.")]
 	DuplicateEmail = 1001,
 
-	[Description("A permissão já está sendo utilizada.")]
+	[Description("A permissï¿½o jï¿½ estï¿½ sendo utilizada.")]
 	DuplicateRoleName = 1002,
 
-	[Description("Login já está sendo utilizado.")]
+	[Description("Login jï¿½ estï¿½ sendo utilizado.")]
 	DuplicateUserName = 1003,
 
-	[Description("Email inválido.")]
+	[Description("Email invï¿½lido.")]
 	InvalidEmail = 1004,
 
-	[Description("A permissão é inválida.")]
+	[Description("A permissï¿½o ï¿½ invï¿½lida.")]
 	InvalidRoleName = 1005,
 
-	[Description("Token inválido.")]
+	[Description("Token invï¿½lido.")]
 	InvalidToken = 1006,
 
-	[Description("Login é inválido, deve conter apenas letras ou dígitos.")]
+	[Description("Login ï¿½ invï¿½lido, deve conter apenas letras ou dï¿½gitos.")]
 	InvalidUserName = 1007,
 
-	[Description("Já existe um usuário com este login.")]
+	[Description("Jï¿½ existe um usuï¿½rio com este login.")]
 	LoginAlreadyAssociated = 1008,
 
 	[Description("Senha incorreta.")]
@@ -68,35 +68,35 @@ public enum TypeError
 	[Description("Senhas devem conter ao menos um digito ('0'-'9').")]
 	PasswordRequiresDigit = 1010,
 
-	[Description("Senhas devem conter ao menos um caracter com letra minúscula ('a'-'z').")]
+	[Description("Senhas devem conter ao menos um caracter com letra minï¿½scula ('a'-'z').")]
 	PasswordRequiresLower = 1011,
 
-	[Description("Senhas devem conter ao menos um caracter com letra maiúscula ('A'-'Z').")]
+	[Description("Senhas devem conter ao menos um caracter com letra maiï¿½scula ('A'-'Z').")]
 	PasswordRequiresUpper = 1012,
 
 	[Description("Senhas devem conter ao menos 8 caracteres.")]
 	PasswordTooShort = 1013,
 
-	[Description("Usuário já possui uma senha definida.")]
+	[Description("Usuï¿½rio jï¿½ possui uma senha definida.")]
 	UserAlreadyHasPassword = 1014,
 
-	[Description("Usuário já possui a permissão.")]
+	[Description("Usuï¿½rio jï¿½ possui a permissï¿½o.")]
 	UserAlreadyInRole = 1015,
 
-	[Description("Lockout não está habilitado para este usuário.")]
+	[Description("Lockout nï¿½o estï¿½ habilitado para este usuï¿½rio.")]
 	UserLockoutNotEnabled = 1016,
 
-	[Description("Usuário não tem a permissão para esta função.")]
+	[Description("Usuï¿½rio nï¿½o tem a permissï¿½o para esta funï¿½ï¿½o.")]
 	UserNotInRole = 1017,
 
-    [Description("Falha ao tentar cadastrar a nova senha, tente mais tarde ou entre em contato com o departamento de suporte técnico.")]
+    [Description("Falha ao tentar cadastrar a nova senha, tente mais tarde ou entre em contato com o departamento de suporte tï¿½cnico.")]
     ResetPasswordFail = 1018,
 
     #endregion
 
     #region USER: 1100 a 1199
 
-    [Description("Usuário não encontrado.")]
+    [Description("Usuï¿½rio nï¿½o encontrado.")]
 
 	UserNotFound = 1100,
 
@@ -106,31 +106,31 @@ public enum TypeError
 	[Description("Ocorreu um erro ao tentar alterar o telefone.")]
 	FailUpdatePhone = 1102,
 
-	[Description("Usuário já existente, isso quer dizer que já existe um usuário com esse número de telefone.")]
+	[Description("Usuï¿½rio jï¿½ existente, isso quer dizer que jï¿½ existe um usuï¿½rio com esse nï¿½mero de telefone.")]
 	UserAlreadyExists = 1103,
 
-	[Description("Usuário não autorizado.")]
+	[Description("Usuï¿½rio nï¿½o autorizado.")]
 	Unauthorized = 1104,
 
-	[Description("Usuário é obrigatório.")]
+	[Description("Usuï¿½rio ï¿½ obrigatï¿½rio.")]
 	UserRequired = 1105,
 
-	[Description("Email é obrigatório.")]
+	[Description("Email ï¿½ obrigatï¿½rio.")]
 	EmailRequired = 1106,
 
-	[Description("Senha é obrigatório.")]
+	[Description("Senha ï¿½ obrigatï¿½rio.")]
 	PasswordRequired = 1107,
 
-	[Description("Confirmação de Senha é obrigatório.")]
+	[Description("Confirmaï¿½ï¿½o de Senha ï¿½ obrigatï¿½rio.")]
 	ConfirmPasswordRequired = 1108,
 
-	[Description("Número de telefone inválido")]
+	[Description("Nï¿½mero de telefone invï¿½lido")]
 	InvalidPhone = 1109,
 
 	[Description("Nova Senha devem conter ao menos 8 caracteres.")]
 	NewPasswordTooShort = 1110,
 
-	[Description("Nova Senha é obrigatório.")]
+	[Description("Nova Senha ï¿½ obrigatï¿½rio.")]
 	NewPasswordRequired = 1111,
 
 	[Description("As senhas devem ser iguais.")]
@@ -142,71 +142,74 @@ public enum TypeError
 	[Description("Erro ao Reativar Usuario.")]
 	ErrorReactivatingUser = 1114,
 
-	[Description("O usuário não está bloqueado ou o período de bloqueio já expirou.")]
+	[Description("O usuï¿½rio nï¿½o estï¿½ bloqueado ou o perï¿½odo de bloqueio jï¿½ expirou.")]
 	ErroHasExpired = 1115,
 
-	[Description("Id do usuário não encontrado.")]
+	[Description("Id do usuï¿½rio nï¿½o encontrado.")]
 	InvalidId = 1116,
 
-	[Description("Permissão de usuário não encontrada.")]
+	[Description("Permissï¿½o de usuï¿½rio nï¿½o encontrada.")]
 	RoleNotFound = 1117,
 
-	[Description("Telefone já existe.")]
+	[Description("Telefone jï¿½ existe.")]
 	PhoneAlreadyExists = 1118,
 
-	[Description("ClientId e Secret inválidos.")]
+	[Description("ClientId e Secret invï¿½lidos.")]
 	InvalidCredentials = 1119,
 
-	[Description("Perfis de Acesso de usuários não encontrados.")]
+	[Description("Perfis de Acesso de usuï¿½rios nï¿½o encontrados.")]
 	AccesProfileNotFound = 1120,
 
-    [Description("E-mail não encontrado.")]
+    [Description("E-mail nï¿½o encontrado.")]
     EmailNotFound = 1121,
 
-    [Description("Código de recuperação de senha inválido, tente mais tarde ou entre em contato com o departamento de suporte técnico.")]
+    [Description("Cï¿½digo de recuperaï¿½ï¿½o de senha invï¿½lido, tente mais tarde ou entre em contato com o departamento de suporte tï¿½cnico.")]
     CodeForgotPasswordInvalid = 1122,
 
 	#endregion
 
 	#region TEMPLATEHISTORY: 1200 a 1299
 
-	[Description("Nome do template é obrigatório.")]
+	[Description("Nome do template ï¿½ obrigatï¿½rio.")]
 	TemplateNameRequired = 1200,
 
-	[Description("Template é obrigatório.")]
+	[Description("Template ï¿½ obrigatï¿½rio.")]
 	TemplateRequired = 1201,
 
-	[Description("Você não tem templates salvos para serem listados.")]
+	[Description("Vocï¿½ nï¿½o tem templates salvos para serem listados.")]
 	TemplateNotFound = 1202,
 	#endregion
 
 	#region IMAGES: 1300 a 1399
 
-	[Description("Nome das imagens é obrigatório.")]
+	[Description("Nome das imagens ï¿½ obrigatï¿½rio.")]
 	ImagesNameRequired = 1300,
 
-	[Description("Images é obrigatório.")]
+	[Description("Images ï¿½ obrigatï¿½rio.")]
 	ImagesRequired = 1301,
 
 	#endregion
 
 	#region TEAM: 1400 a 1499
 
-	[Description("Nome da equipe é obrigatório.")]
+	[Description("Nome da equipe ï¿½ obrigatï¿½rio.")]
 	TeamNameRequired = 1400,    
 
-    [Description("Id do líder da equipe é obrigatório.")]
+    [Description("Id do lï¿½der da equipe ï¿½ obrigatï¿½rio.")]
 	TeamLeaderIdRequired = 1401,
 
-    [Description("Equipe já está cadastrada.")]
+    [Description("Equipe jï¿½ estï¿½ cadastrada.")]
     TeamAlreadyExistsInTeam = 1402,
+	
+	[Description("Id do criador da equipe ï¿½ obrigatï¿½rio.")]
+	TeamCreatorRequired = 1403,
 
 
     #endregion
 
     #region TEAMMEMBER: 1500 a 1599
 
-    [Description("Usuário já está cadastrado na equipe.")]
+    [Description("Usuï¿½rio jï¿½ estï¿½ cadastrado na equipe.")]
 	MemberAlreadyExistsInTeam = 1500,
 
 
@@ -215,7 +218,7 @@ public enum TypeError
 
     #region History: 1600 a 1699
 
-    [Description("Descrição é obrigatório.")]
+    [Description("Descriï¿½ï¿½o ï¿½ obrigatï¿½rio.")]
     HistoryDescriptionRequired = 1600,
 
     #endregion

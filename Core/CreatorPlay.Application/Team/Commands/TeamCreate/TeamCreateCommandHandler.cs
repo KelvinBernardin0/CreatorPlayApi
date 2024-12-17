@@ -20,13 +20,19 @@ public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, 
 	public async Task<ResponseApi<TeamCreateCommandResponse>> Handle(TeamCreateCommandRequest request, CancellationToken cancellationToken)
 	{
 		var response = new ResponseApi<TeamCreateCommandResponse>();
-
+		var IsLeader = false;
 		try
 		{
 			var requestError = ValidateRequest(request);
 			if (requestError == null)
 			{
-				var newTeam = new Domain.Entities.Team();
+				if (string.IsNullOrEmpty(request.LeaderId)){
+					request.LeaderId =  request.Creator;
+					IsLeader = true;
+				}
+					
+
+				var newTeam = new Domain.Entities.Team(request.Name, request.LeaderId,request.Description,request.Creator);
 				
 
                 var teamAlreadyExists = await _context.Team.AnyAsync(x => x.Name == request.Name,  cancellationToken);
@@ -36,12 +42,12 @@ public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, 
                     return response;
                 }			
 
-                newTeam.AddTeam(request.Name, request.LeaderId);
+                // newTeam.AddTeam(request.Name, request.LeaderId,request.Description,request.Creator,DateTime.UtcNow);
 
                 await _context.Team.AddAsync(newTeam, cancellationToken);
 				await _context.SaveChangesAsync(cancellationToken);
 
-				await _mediator.Send(new TeamMemberCreateCommandRequest(newTeam.LeaderId, newTeam.Id, true, default), cancellationToken);
+				await _mediator.Send(new TeamMemberCreateCommandRequest(newTeam.LeaderId, newTeam.Id, IsLeader, default), cancellationToken);
 
 				response.SetSuccess(new TeamCreateCommandResponse(newTeam.Id), HttpStatusCode.Created.GetHashCode());
 			}
@@ -62,8 +68,8 @@ public class TeamCreateCommandHandler(ILogger<TeamCreateCommandHandler> logger, 
 		if (!request.Name.HasValue())
 			return TypeError.TeamNameRequired;
 
-		if (!request.LeaderId.HasValue())
-			return TypeError.TeamLeaderIdRequired;
+		if (!request.Creator.HasValue())
+			return TypeError.TeamCreatorRequired;
 
 		return null;
 	}

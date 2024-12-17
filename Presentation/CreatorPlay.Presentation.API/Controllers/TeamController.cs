@@ -18,7 +18,8 @@ public class TeamController(IMediator mediator) : BaseController
     [ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateTeamAsync([FromBody] TeamCreateCommandRequest request)
     {
-        request.LeaderId = JwtUserData().Id;
+      
+        request.Creator= JwtUserData().Id;
         var response = await _mediator.Send(request);
         return StatusCode(response.HttpStatusCode, response.GetResultData);
     }

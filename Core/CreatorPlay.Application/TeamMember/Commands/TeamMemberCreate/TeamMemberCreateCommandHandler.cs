@@ -29,7 +29,7 @@ public class TeamMemberCreateCommandHandler(ILogger<TeamMemberCreateCommandHandl
 			if (request.IsLeader)
 			{
 				newTeamMember.AddTeamMember(request.TeamId, request.UserId, request.IsLeader);
-                var user = await _context.ApplicationUser.FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
+                var user = await _context.ApplicationUser.FirstOrDefaultAsync(x => x.Id == request.UserId || x.Email==request.UserEmail, cancellationToken);
 
                 if (!Extensions.IsValidEmail(user.Email))
 				{
