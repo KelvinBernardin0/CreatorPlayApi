@@ -9,7 +9,6 @@ public class Team : BaseEntity
 	public string Creator { get; set; }
 	public string Description { get; set; }
 	public DateTime DeactivationDate { get; set; }
-	public bool Active { get; set; }
 	public Status Status { get; private set; } = Status.Active;
 
 	public ICollection<TeamMember> Members { get; set; }
@@ -18,7 +17,6 @@ public class Team : BaseEntity
 		Name = name;
 		Description=description;
 		Creator=creator;
-		Active=true;
 		DeactivationDate= DateTime.Parse("1800/01/01");
 
 	}
