@@ -24,6 +24,8 @@ namespace CreatorPlay.Application.TeamMember.Commands.TeamMemberDelete
             
             try
             {   
+               var teamLeader = await _context.TeamMember.FirstOrDefaultAsync(x=>x.TeamId==request.TeamId && x.IsLeader==true , cancellationToken);
+               if(teamLeader.UserId==request.RequestUserId || request.RequestUserId == request.UserId){
                 var teamMember = await _context.TeamMember.FirstOrDefaultAsync(x => x.UserId == request.UserId && x.TeamId == request.TeamId, cancellationToken);                
 
                 if (teamMember == null) 
@@ -37,6 +39,10 @@ namespace CreatorPlay.Application.TeamMember.Commands.TeamMemberDelete
                 await _context.SaveChangesAsync(cancellationToken);
 
                 response.SetSuccess(new TeamMemberDeleteCommandResponse("Usuário Deletado com sucesso!"), HttpStatusCode.OK.GetHashCode());
+                }else{
+                     response.SetError(new ResponseError(TypeError.OnlyLeaderCanRemoveTeamMember, TypeError.OnlyLeaderCanRemoveTeamMember), HttpStatusCode.BadRequest.GetHashCode());
+                    return response;
+                }
             }
             catch (Exception ex)
             {

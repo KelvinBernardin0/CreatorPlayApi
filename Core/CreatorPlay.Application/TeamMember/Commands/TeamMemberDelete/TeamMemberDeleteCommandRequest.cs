@@ -8,9 +8,11 @@ namespace CreatorPlay.Application.TeamMember.Commands.TeamMemberDelete
 {
     public record TeamMemberDeleteCommandRequest : IRequest<ResponseApi<TeamMemberDeleteCommandResponse>>
     {
-        [JsonIgnore]
-        public string? UserId { get; set; }
+  
+        public string UserId { get; set; }
         public int TeamId { get; set; }
+        [JsonIgnore]
+        public string? RequestUserId { get; set; }
 
         public TeamMemberDeleteCommandRequest(string? userId, int teamId )
         {

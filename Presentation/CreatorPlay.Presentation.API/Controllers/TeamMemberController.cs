@@ -25,12 +25,12 @@ public class TeamMemberController(IMediator mediator) : BaseController
 		return StatusCode(response.HttpStatusCode, response.GetResultData);
 	}
 
-    [HttpPut()]
+    [HttpDelete()]
     [ProducesResponseType(typeof(TeamMemberDeleteCommandResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteTeamMemberAsync([FromBody] TeamMemberDeleteCommandRequest request)
     {
-        request.UserId = JwtUserData().Id;
+        request.RequestUserId = JwtUserData().Id;
         var response = await _mediator.Send(request);
         return StatusCode(response.HttpStatusCode, response.GetResultData);
     }

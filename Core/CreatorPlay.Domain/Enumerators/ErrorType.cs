@@ -226,4 +226,10 @@ public enum TypeError
     HistoryDescriptionRequired = 1600,
 
     #endregion
+	#region DeleteTeamMember: 1700 a 1799
+
+    [Description("Apenas o Lider pode remover um membro da equipe.")]
+    OnlyLeaderCanRemoveTeamMember = 1700,
+
+    #endregion
 }
