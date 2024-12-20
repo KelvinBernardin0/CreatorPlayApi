@@ -203,6 +203,8 @@ public enum TypeError
 	
 	[Description("Id do criador da equipe � obrigat�rio.")]
 	TeamCreatorRequired = 1403,
+	[Description("Apenas o Lider pode remover um membro da equipe.")]
+    OnlyLeaderCanDeleteTeam = 1404,
 
 
     #endregion

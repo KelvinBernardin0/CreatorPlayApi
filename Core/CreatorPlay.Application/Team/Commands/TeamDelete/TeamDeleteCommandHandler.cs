@@ -24,16 +24,16 @@ namespace CreatorPlay.Application.Team.Commands.TeamDelete
             try
             {
 
+
+                var teamMember = await _context.TeamMember.FirstOrDefaultAsync(x=>x.TeamId==request.TeamId && x.IsLeader==true,cancellationToken);
+            if(teamMember!= null && teamMember.UserId == request.RequestUserId){
                var team = await _context.Team.FirstOrDefaultAsync(x => x.Id == request.TeamId, cancellationToken);
 
                 if (team == null)
                 {
-                    response.SetError(new ResponseError(TypeError.DefaultError, "Lider não encontrada"), HttpStatusCode.BadRequest.GetHashCode());
+                    response.SetError(new ResponseError(TypeError.DefaultError, "Equipen não encontrada."), HttpStatusCode.NotFound.GetHashCode());
                     return response;
                 }
-                var teamMember = await _context.TeamMember.FirstOrDefaultAsync(x=>x.TeamId==request.TeamId && x.IsLeader==true,cancellationToken);
-            if(teamMember!= null && teamMember.UserId == request.RequestUserId){
-
        
                 team.SetStatusTeam(Status.Inactive);
 
@@ -41,6 +41,9 @@ namespace CreatorPlay.Application.Team.Commands.TeamDelete
                 await _context.SaveChangesAsync(cancellationToken);
 
                 response.SetSuccess(new TeamDeleteCommandResponse("Equipe Deletado com sucesso!"), HttpStatusCode.OK.GetHashCode());
+                     }else{
+                        response.SetError(new ResponseError(TypeError.OnlyLeaderCanDeleteTeam, TypeError.OnlyLeaderCanDeleteTeam.GetDescription()), HttpStatusCode.InternalServerError.GetHashCode());
+                        return response;
                      }
             }
             catch (Exception ex)
