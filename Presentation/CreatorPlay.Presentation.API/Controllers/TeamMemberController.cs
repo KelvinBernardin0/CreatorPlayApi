@@ -24,8 +24,8 @@ public class TeamMemberController(IMediator mediator) : BaseController
 		var response = await _mediator.Send(request);
 		return StatusCode(response.HttpStatusCode, response.GetResultData);
 	}
-
-    [HttpDelete()]
+    [Route("leaveTeam")]
+    [HttpPatch()]
     [ProducesResponseType(typeof(TeamMemberDeleteCommandResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteTeamMemberAsync([FromBody] TeamMemberDeleteCommandRequest request)
@@ -34,13 +34,14 @@ public class TeamMemberController(IMediator mediator) : BaseController
         var response = await _mediator.Send(request);
         return StatusCode(response.HttpStatusCode, response.GetResultData);
     }
-
+    [Route("{TeamId:int}")]
     [HttpGet()]
     [ProducesResponseType(typeof(GetTeamMemberQueryResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseApiError), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetTeamMember()
+    public async Task<IActionResult> GetTeamMember(int TeamId)
     {        
-        var response = await _mediator.Send(new GetTeamMemberQueryRequest());
+        var request = new GetTeamMemberQueryRequest(){TeamId=TeamId};
+        var response = await _mediator.Send(request);
         return StatusCode(response.HttpStatusCode, response.GetResultData);
     }
 }
