@@ -26,8 +26,8 @@ namespace CreatorPlay.Application.Team.Queries.TemList
 
             var teamMembers = await _context.Team
                     .Join(_context.TeamMember, t => t.Id, tm => tm.TeamId, (t, tm) => new { t, tm })
-                    .Where(x =>x.tm.Status== Status.Active && x.tm.UserId==request.RequestUserId && x.t.Status== Status.Active )
-                    .GroupBy(x => new { x.t.Id, x.t.Name,x.t.Description,x.t.Creator, x.t.CreatedAt,x.t.DeactivationDate })
+                    .Where(x =>x.tm.Status== Status.Active && x.tm.UserId==request.RequestUserId && x.t.Status== Status.Active  )
+                    .GroupBy(x => new { x.t.Id, x.t.Name,x.t.Description,x.t.Creator, x.t.CreatedAt,x.t.DeactivationDate,x.tm.UserId })
                     .Select(g => new TeamListQueryResponse
                     {
                         Id = g.Key.Id,
@@ -35,11 +35,11 @@ namespace CreatorPlay.Application.Team.Queries.TemList
                         Description = g.Key.Description,
                         creator = g.Key.Creator,
                         CreateDate = g.Key.CreatedAt,
-                        DeactivationDate =  g.Key.DeactivationDate
-                    })
+                        DeactivationDate =  g.Key.DeactivationDate,
+                        LeaderId = _context.TeamMember.Where(x=> x.TeamId==g.Key.Id && x.IsLeader==true).Select(x=> x.UserId).FirstOrDefault() })
                     .ToListAsync(cancellationToken);
           
-         
+        
                      response.SetSuccess(teamMembers, HttpStatusCode.OK.GetHashCode());
           }
             catch (Exception ex)

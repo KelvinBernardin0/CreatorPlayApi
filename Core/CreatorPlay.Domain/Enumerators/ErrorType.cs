@@ -198,7 +198,7 @@ public enum TypeError
     [Description("Id do l�der da equipe � obrigat�rio.")]
 	TeamLeaderIdRequired = 1401,
 
-    [Description("Equipe j� est� cadastrada.")]
+    [Description("Já existe uma equipe com esse nome.")]
     TeamAlreadyExistsInTeam = 1402,
 	
 	[Description("Id do criador da equipe � obrigat�rio.")]
