@@ -160,7 +160,7 @@ public enum TypeError
 	[Description("Perfis de Acesso de usu�rios n�o encontrados.")]
 	AccesProfileNotFound = 1120,
 
-    [Description("E-mail n�o encontrado.")]
+    [Description("E-mail não encontrado.")]
     EmailNotFound = 1121,
 
     [Description("C�digo de recupera��o de senha inv�lido, tente mais tarde ou entre em contato com o departamento de suporte t�cnico.")]
