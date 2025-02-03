@@ -1,7 +1,7 @@
 # CreatorPlay
 
 
-# CreatorPlay é um sistema para criação de e-mails marketing em HTML de forma intuitiva e eficiente. Com uma interface amigável e recursos avançados, permite a edição e personalização de templates para campanhas de e-mail.
+CreatorPlay é um sistema para criação de e-mails marketing em HTML de forma intuitiva e eficiente. Com uma interface amigável e recursos avançados, permite a edição e personalização de templates para campanhas de e-mail.
 
 # Funcionalidades Principais:
 - Editor de arrastar e soltar: Crie templates de e-mail facilmente.
@@ -10,7 +10,7 @@
 - Autenticação e gerenciamento de usuários: Controle de acesso seguro.
 - Integração com APIs de e-mail: Suporte a envio via plataformas
 
-# Tecnologias Utilizadas
+# Tecnologias Utilizadas abaixo
 
 # Front-End
 - Framework: Angular 16
